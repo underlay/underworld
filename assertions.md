@@ -116,7 +116,7 @@ In general, treat `@id` *only as a way to link nodes together*, not as a propert
 
 ## Optional top-level signatures
 
-We expect that most assertions will be uselessly untrustworthy without publicly verifiable signatures of their publishers (as distinct from their *source* - many Underlay nodes may publish an equivalent assertion citing the same sources). Accordingly we anticipate to formalize the JSON-LD signatures specified in the [Security Vocabulary](https://web-payments.org/vocabs/security) drafted by the W3C Web Payments Community Group. These signatures are optional, but if you include one you should follow either `GraphSignature` or `LinkedDataSignature` for the best chances at staying future-compatible.
+We expect that most assertions will be uselessly untrustworthy without publicly verifiable signatures of their publishers (as distinct from their *source* - many Underlay nodes may publish an equivalent assertion citing the same sources). Accordingly, we anticipate to use the JSON-LD signatures specified in the [Security Vocabulary](https://web-payments.org/vocabs/security) drafted by the W3C Web Payments Community Group. These signatures are optional, but if you want to include one you should follow either `GraphSignature` or `LinkedDataSignature` for the best chances of staying future-compatible.
 
 # FAQ
 
@@ -129,7 +129,7 @@ We expect that most assertions will be uselessly untrustworthy without publicly 
 		An assertion should be the most granular piece of data that you have specific provenance for. 
 		If you have separate source for each record, they should each be assertions. 
 		If you have a single source for the whole dataset, just cram it into one. 
-		The IPLD link idioms let us efficiently have arbitrarily large assertions, so in the whole-dataset case it'd be wise to split each record at the IPLD level and have the top-level, signed assertion just be an array of IPLD links.
+		The IPLD link pattern lets us efficiently have arbitrarily large assertions, so in the whole-dataset case it'd be wise to split each record at the IPLD level and have the top-level, signed assertion just be an array of IPLD links.
 	</dd>
 	<dt>
 		What's up with the whole layered provenance thing?
