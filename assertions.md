@@ -4,29 +4,33 @@ Assertions in the Underlay are [JSON-LD documents](https://json-ld.org/spec/late
 
 *Here is one sample assertion, for use as the simplest of templates*
 ```json
-[
-	{
-		"@context": { "@vocab": "http://schema.org/" },
-		"@id": "_:lebron",
-		"@type": "Person",
-		"name": "LeBron James",
-		"birthDate": "1984-12-30"
-	},
-	{
-		"@context": {
-			"prov": "http://www.w3.org/ns/prov#",
-			"schema": "http://schema.org/"
-		},
-		"@type": "prov:Entity",
-		"prov:value": { "@id": "_:lebron" },
-		"prov:wasAttributedTo": {
-			"@type": ["prov:Organization", "schema:Organization"],
-			"prov:atLocation": "http://www.espn.com/nba/player/_/id/1966/lebron-james",
-			"schema:name": "ESPN",
-			"schema:url": "http://www.espn.com/"
-		}
-	}
-]
+{
+  "@context": { "@vocab": "http://schema.org/" },
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "_:lebron",
+      "name": "LeBron James",
+      "birthDate": "1984-12-30"
+    },
+    {
+      "@context": { "prov": "http://www.w3.org/ns/prov#" },
+      "@type": "prov:Entity",
+      "prov:value": { "@id": "_:lebron" },
+      "prov:wasAttributedTo":{
+	"@type": ["prov:Organization", "prov:Organization"],
+	"@id": "_:espn",
+	"name": "ESPN",
+	"url": "http://www.espn.com/"
+      },
+      "prov:qualifiedAttribution": {
+        "@type": "prov:Attribution",
+	"prov:atLocation": "http://www.espn.com/nba/player/_/id/1966/lebron-james",
+	"prov:agent": { "@id": "_:espn" }
+      }
+    }
+  ]
+}
 ```
 
 
