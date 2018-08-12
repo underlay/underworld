@@ -41,7 +41,7 @@ JSON-LD documents encode graphs in one of three root forms:
 2) An array of top-level graphs, such as `[{"name": "John Doe", ...}, {"@context": {...}, "@graph": [...]}]`
 3) An object `{"@context": {...}, "@graph": [...]}`, with no properties other than `@context` and `@graph`, where `@graph` is an array of graphs as in 2) but that all inherit the shared top-level `@context`
 
-To simplify top-level parsing, we restrict assertions to be only the second format: an array of graphs, each of which may be of either the first or third format (but no nested arrays). This is necessary for including provenance, as described in the [provenance section](#prov-provenance).
+To simplify top-level parsing, we restrict assertions to be only the third format: **a top-level object containing an `@graph` property**, and optionally a global `@context` property that all children will inherit from. This is necessary for including signatures and provenance, as described in subsequent sections.
 
 ## IPLD Links
 
@@ -56,25 +56,28 @@ A pattern we're encouraging in Underlay assertions is substituting IPLD links in
 For example, we might want to link to every top-level graph element so that the resultant assertion is constant-size, lightweight, and more easily shareable.
 ```javascript
 const content = {
-	"@context": { "@vocab": "http://schema.org/" },
-	name: "Joel Gustafson",
-	email: "joelg@mit.edu",
-	...
+  "@context": { "@vocab": "http://schema.org/" },
+  name: "Joel Gustafson",
+  email: "joelg@mit.edu",
+  ...
 }
 const cid = await ipfs.dag.put(content, {"format": "dag-cbor", hashAlg: "sha2-256"})
 const dataLink = cid.toBaseEncodedString() // zBwWX9ecx5F4X54WAjmFL...
 const provenance = {
-	"@context": { "@vocab": "http://www.w3.org/ns/prov#" },
-	"@type": "Entity",
-	"value": {"@index": "/", "@value": dataLink},
-	...
+  "@context": { "@vocab": "http://www.w3.org/ns/prov#" },
+  "@type": "Entity",
+  "value": {"@index": "/", "@value": dataLink},
+  ...
 }
 const cid2 = await ipfs.dag.put(provenance, {"format": "dag-cbor", hashAlg: "sha2-256"})
 const provLink = cid2.toBaseEncodedString()
-const assertion = [
-	{"@index": "/", "@value": dataLink},
-	{"@index": "/", "@value": provLink}
-]
+const assertion = {
+  "@graph": [
+    {"@index": "/", "@value": dataLink},
+    {"@index": "/", "@value": provLink}
+  ],
+  ...signature
+}
 ```
 
 ## PROV Provenance
@@ -94,22 +97,25 @@ Assertions with layered provenance might look like this:
 const facts = { ...facts_about_the_world }
 const cid = ipfs.dag.put(facts, {"format": "dag-cbor", hashAlg: "sha2-256"})
 const link = cid.toBaseEncodedString()
-const assertion = [
-	{ "@index": "/", "@value": link },
-	{
-		"@context": { "@vocab": "http://www.w3.org/ns/prov#" },
-		"@id": "_:provenance",
-		"@type": "Entity",
-		value: { "@index": "/", "@value": link },
-		...provenance_of_those_facts
-	},
-	{
-		"@context": { "@vocab": "http://www.w3.org/ns/prov#" },
-		"@type": "Entity",
-		value: { "@id": "_:provenance" },
-		...provenance_of_provenance
-	}
-]
+const assertion = {
+  "@graph": [
+    { "@index": "/", "@value": link },
+    {
+      "@context": { "@vocab": "http://www.w3.org/ns/prov#" },
+      "@id": "_:provenance",
+      "@type": "Entity",
+      value: { "@index": "/", "@value": link },
+      ...provenance_of_those_facts
+    },
+    {
+      "@context": { "@vocab": "http://www.w3.org/ns/prov#" },
+      "@type": "Entity",
+      value: { "@id": "_:provenance" },
+      ...provenance_of_provenance
+    }
+  ],
+  ...signature
+}
 ```
 
 ## Blank node IDs
@@ -125,25 +131,21 @@ We expect that most assertions will be uselessly untrustworthy without publicly 
 # FAQ
 
 <dl>
-	<dt>
-		How big should be assertions be? 
-		Should I put a big dataset into one assertion or make a separate assertion for every record?
-	</dt>
-	<dd>
-		An assertion should be the most granular piece of data that you have specific provenance for. 
-		If you have separate source for each record, they should each be assertions. 
-		If you have a single source for the whole dataset, just cram it into one. 
-		The IPLD link pattern lets us efficiently have arbitrarily large assertions, so in the whole-dataset case it'd be wise to split each record at the IPLD level and have the top-level, signed assertion just be an array of IPLD links.
-	</dd>
-	<dt>
-		What's up with the whole layered provenance thing?
-	</dt>
-	<dd>
-		<p>
-			Assertions have to mean <em>something</em> - by signing and publishing one, there must be something that you are, in fact, asserting. But it's rarely object-level, world-relating knowledge, unless you're a primary source. You probably heard it from someone else, and even if you trust them, you should include that layer in your assertion. The layers exist so that assertion publishers can keep adding them until they reach a layer that they feel comfortable signing themselves - one that they are the primary source for.
-		</p>
-		<p>
-			Suppose I read in a Wired piece by Dr. Suess that the population of Narnia is 108. Now I may not know what the population of Narnia is, and I may not even know that Dr. Suess claimed it was 108. But there is some articulable fact for which I <em>am</em> a primary source: that in the copy of Wired magazine dated 2012-12-12, an article credited to Dr. Suess listed Naria's population as 108. Each of these degrees of separation would be a separate graph involving (in order) Narnia, Dr. Suess, Wired, and (eventually and ultimately) <em>me</em>, the asserter. And when I've built a tower that reaches myself as a primary source, I sign and publish the whole stack. <strong>The signature of the assertion grounds the tower of provenance.</strong>
-		</p>
-	</dd>
+  <dt>
+    How big should be assertions be? Should I put a big dataset into one assertion or make a separate assertion for every record?
+  </dt>
+  <dd>
+    An assertion should be the most granular piece of data that you have specific provenance for. If you have separate source for each record, they should each be assertions. If you have a single source for the whole dataset, just cram it into one. The IPLD link pattern lets us efficiently have arbitrarily large assertions, so in the whole-dataset case it'd be wise to split each record at the IPLD level and have the top-level, signed assertion just be an array of IPLD links.
+  </dd>
+  <dt>
+    What's up with the whole layered provenance thing?
+  </dt>
+  <dd>
+    <p>
+      Assertions have to mean <em>something</em> - by signing and publishing one, there must be something that you are, in fact, asserting. But it's rarely object-level, world-relating knowledge, unless you're a primary source. You probably heard it from someone else, and even if you trust them, you should include that layer in your assertion. The layers exist so that assertion publishers can keep adding them until they reach a layer that they feel comfortable signing themselves - one that they are the primary source for.
+    </p>
+    <p>
+      Suppose I read in a Wired piece by Dr. Suess that the population of Narnia is 108. Now I may not know what the population of Narnia is, and I may not even know that Dr. Suess claimed it was 108. But there is some articulable fact for which I <em>am</em> a primary source: that in the copy of Wired magazine dated 2012-12-12, an article credited to Dr. Suess listed Naria's population as 108. Each of these degrees of separation would be a separate graph involving (in order) Narnia, Dr. Suess, Wired, and (eventually and ultimately) <em>me</em>, the asserter. And when I've built a tower that reaches myself as a primary source, I sign and publish the whole stack. <strong>The signature of the assertion grounds the tower of provenance.</strong>
+    </p>
+  </dd>
 </dl>
