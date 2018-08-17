@@ -55,7 +55,7 @@ const provenance = {
   ...lots_of_provenance_data,
 }
 
-const options = { format: "jsonld", hashAlg: "sha2-256" }
+const options = { format: "dag-cbor", hashAlg: "sha2-256" }
 const cid = await ipfs.dag.put(provenance, options)
 
 const assertion = {
