@@ -64,8 +64,6 @@ const {value} = await ipfs.dag.get(personCid, "birthPlace/name")
 // "Duluth"
 ```
 
-... and you can imagine linking to nodes inside other JSON-LD documents to explicitly refer
-
 I implemented and published this approach in [versions `0.1.*`](https://github.com/underlay/js-ipld-jsonld/tree/f625327cbc406d0cad2d471d93ceca97d76d4e42), but usage was very limited and filesystem-style paths were not a good conceptual fit for JSON-LD. Since JSON-LD supports multiple, unsorted values of differening schemas, a user would have to know a document's structure so precisely that they'd be better off just using ordinary JSON paths and `dag-cbor` to link within documents.
 
 A separate concern was that in JSON-LD, [value objects](https://json-ld.org/spec/latest/json-ld/#value-objects) can't have additional keys beyond `@index` and optionally `@type` or `@language`. So the use case of "appending" properties to someone else's node isn't actually possible - you could only ever use others' nodes as values on your own properties, and even then you'd have to know exactly where to find them in the document.
