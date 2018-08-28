@@ -93,6 +93,6 @@ But instead I'm leaning toward something that uses CIDs of root documents as `@i
 
 extracts the `"http://people.org/joel"` node from the target document and appends `"name": "Joel Gustafson"` to it. If `"http://people.org/joel"` _also_ had an `@index` with some CID, it'd recursively resolve that link through too, etc.
 
-This approach doesn't quite have the conceptual feng shui I'm gunning for, it's still surprisingly non-intrusive: JSON-LD frames can't match `@index` values and thus presently ignore them (what a waste!). IDs used within the frame are scoped to the containing graph, so they won't collide and merge with the rest of the document during processing. The scheme comes with a built-in reification strategy: it's easy to link either to a document-as-a-document or to a subject node within a document.
+This approach doesn't quite have the conceptual feng shui I'm gunning for, it's still surprisingly non-intrusive: JSON-LD frames can't match `@index` values and thus presently ignore them (what a waste!). But IDs used within the frame are scoped to the containing graph, so they won't collide and merge with the rest of the document during processing. The approach also comes with a built-in reification strategy: it's easy to link either to a document-as-a-document or to a subject node within a document.
 
 _developing..._
