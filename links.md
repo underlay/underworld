@@ -146,7 +146,7 @@ Let's use the `joel` node as a value in another graph:
 }
 ```
 
-(Here the `_:b0` identifier is the (deterministically assigned!) blank node id for the _graph object_ that contains the node with `@id` of `joel`.)
+(Here the `_:b0` identifier is the (deterministically assigned!) blank node id for the _graph object_ that contains the node with `@id` of `joel`. Paste the JSON into the [playground and browse the Flattened document pane](https://json-ld.org/playground-dev/#pane-flattened) to see the blank node ids assigned.)
 
 And if you're referencing an entire assertion as a digital object (likely a common case for provenance), you could shorten your index-graph-index into an index-value. In this case, we're declaring that the `joel` node has a property `foaf:name`, and that its value is `"Joel Gustafson"`, and also that that declaration (of `foaf:name`) was derived from the original assertion.
 
