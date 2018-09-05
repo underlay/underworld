@@ -101,14 +101,28 @@ This approach doesn't quite have the conceptual feng shui I'm gunning for, it's 
 
 1. It seems like there are really only two kinds of links - one where you want to use an existing node as a value for a property of a new one, and another where you want to append a property-value (or a few) to an existing node.
 
-2. It's definitely necessary to re-introduce an `"@index": "/"` property at the top level and push the CID index down into `@graph`. This is awkward because it means we almost always need two `@index` properties for each link (bleh!) but otherwise selecting a node by `@id` (by far the most common case) is actually not possible: just `{"@id": "some_id"}` is actually not a valid JSON-LD node, and will get ignore during processing, so trying to reference `{ "@index": "Qm...", "@graph": { "@id": "some_id" } }` won't work. So instead we twis t it into `{ "@index": "/", "@graph": { "@index": "Qm...", "@id": "some_id" } }` so that the all the properties get preserved. This has the side benefit of faster "is-link?" checking during processing, since we don't have to try to parse a CID out of every `@index` we find. _And_, on reflection, this is conceptually cleaner: first have nodes declare that they _are_ links, and _then_ have them declare where they point to.
+2. It's definitely necessary to re-introduce an `"@index": "/"` property at the top level and push the CID index down into `@graph`. This is awkward because it means we almost always need two `@index` properties for each link (bleh!) but otherwise selecting a node by `@id` (likely the most common case, and maybe the only one) is actually not possible: just `{"@id": "some_id"}` is actually not a valid JSON-LD node, and will get dropped during processing, so trying to reference `{ "@index": "Qm...", "@graph": { "@id": "some_id" } }` won't work. So instead we twist it into `{ "@index": "/", "@graph": { "@index": "Qm...", "@id": "some_id" } }` so that the all the properties get preserved. This has the side benefit of faster "is-link?" checking during processing, since we don't have to try to parse a CID out of every `@index` we find. _And_, on reflection, this is conceptually cleaner: first have nodes declare that they _are_ links, and _then_ have them declare where they point to.
 
-Suppose we have a CID `Qm...` of the following graph:
+3. JSON-LD Frames are probably not useful to us. Especially if we have some standard of flattening all assertions before persisting them, we may as well just require everything to be addressed by (possibly blank) id. We still want to wrap selectors in `@graph` objects so that they don't collide (?? do we really want this? IRIs are supposed to collide!) if you're using the same one in your real graph.
+
+4. As a dead-simple id-based alternative to JSON-LD frames for selecting nodes, let's say we just use `"@graph": { "@id": "the-id" }` for ids in the default graph and `"@graph": { "@id": "the-subgraph", "@graph": { "@id": "the-real-id" } }` for nodes in some subgraph, where `the-id`, `the-subgraph`, and `the-real-id` could all be blank node ids (`_:b0`, etc).
+
+So to illustrate the whole shebang, suppose we have a CID `Qm...` of the following graph:
 ```json
 {
-  "@context": { "@vocab": "http://schema.org/", "@base": "http://example.org/" },
-  "@id": "joel",
-  "name": "Joel Gustafson",
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "@base": "http://example.org/",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@graph": {
+    "@id": "joel",
+    "name": "Joel Gustafson"
+  },
+  "prov:wasAttributedTo": {
+    "@type": ["prov:Person", "Person"],
+    "name": "Guy OnTheStreet"
+  }
 }
 ```
 
@@ -125,9 +139,34 @@ Let's use the `joel` node as a value in another graph:
     "@index": "/",
     "@graph": {
       "@index": "Qm...",
-      "@id": "joel"
+      "@id": "_:b0",
+      "@graph": { "@id": "joel" }
     }
   }
+}
+```
+
+(Here the `_:b0` identifier is the (deterministically assigned!) blank node id for the _graph object_ that contains the node with `@id` of `joel`.)
+
+And if you're referencing an entire assertion as a digital object (likely a common case for provenance), you could shorten your index-graph-index into an index-value. In this case, we're declaring that the `joel` node has a property `foaf:name`, and that its value is `"Joel Gustafson"`, and also that that declaration (of `foaf:name`) was derived from the original assertion.
+
+```json
+{
+  "@context": {
+    "prov": "http://www.w3.org/ns/prov#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "prov:wasDerivedFrom": { "@container": "@index" }
+  },
+  "@graph": {
+    "@index": "/",
+    "@graph": {
+      "@index": "Qm...",
+      "@id": "_:b0",
+      "@graph": { "@id": "joel" }
+    },
+    "foaf:name": "Joel Gustafson"
+  },
+  "prov:wasDerivedFrom": { "/": "Qm..." }
 }
 ```
 
@@ -138,7 +177,11 @@ But now suppose you want to describe further properties of the `joel` node - not
 {
   "@context": { "@vocab": "http://schema.org/", "@base": "http://example.org/" },
   "@index": "/",
-  "@graph": { "@index": "Qm...", "@id": "joel" },
+  "@graph": {
+    "@index": "Qm...",
+    "@id": "_:b0",
+    "@graph": { "@id": "joel" }
+  },
   "birthDate": "1996-02-02"
 }
 ```
