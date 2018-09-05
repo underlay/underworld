@@ -95,4 +95,53 @@ extracts the `"http://people.org/joel"` node from the target document and append
 
 This approach doesn't quite have the conceptual feng shui I'm gunning for, it's still surprisingly non-intrusive: JSON-LD frames can't match `@index` values and thus presently ignore them (what a waste!). But IDs used within the frame are scoped to the containing graph, so they won't collide and merge with the rest of the document during processing. The approach also comes with a built-in reification strategy: it's easy to link either to a document-as-a-document or to a subject node within a document.
 
-_developing..._
+## Inverting the index
+
+> Thoughts from a never-ending BOS->SFO flight 2018-09-05
+
+1. It seems like there are really only two kinds of links - one where you want to use an existing node as a value for a property of a new one, and another where you want to append a property-value (or a few) to an existing node.
+
+2. It's definitely necessary to re-introduce an `"@index": "/"` property at the top level and push the CID index down into `@graph`. This is awkward because it means we almost always need two `@index` properties for each link (bleh!) but otherwise selecting a node by `@id` (by far the most common case) is actually not possible: just `{"@id": "some_id"}` is actually not a valid JSON-LD node, and will get ignore during processing, so trying to reference `{ "@index": "Qm...", "@graph": { "@id": "some_id" } }` won't work. So instead we twis t it into `{ "@index": "/", "@graph": { "@index": "Qm...", "@id": "some_id" } }` so that the all the properties get preserved. This has the side benefit of faster "is-link?" checking during processing, since we don't have to try to parse a CID out of every `@index` we find. _And_, on reflection, this is conceptually cleaner: first have nodes declare that they _are_ links, and _then_ have them declare where they point to.
+
+Suppose we have a CID `Qm...` of the following graph:
+```json
+{
+  "@context": { "@vocab": "http://schema.org/", "@base": "http://example.org/" },
+  "@id": "joel",
+  "name": "Joel Gustafson",
+}
+```
+
+Then the two kinds of links look like this:
+
+### Reference value
+
+Let's use the `joel` node as a value in another graph:
+```json
+{
+  "@context": { "@vocab": "http://schema.org/", "@base": "http://example.org/" },
+  "@id": "kevin",
+  "knows": {
+    "@index": "/",
+    "@graph": {
+      "@index": "Qm...",
+      "@id": "joel"
+    }
+  }
+}
+```
+
+### Append property
+But now suppose you want to describe further properties of the `joel` node - not just using it as a value. In particular, let's append a property `http://schema.org/birthDate` with value `1996-02-02`:
+
+```json
+{
+  "@context": { "@vocab": "http://schema.org/", "@base": "http://example.org/" },
+  "@index": "/",
+  "@graph": { "@index": "Qm...", "@id": "joel" },
+  "birthDate": "1996-02-02"
+}
+```
+
+### Wait, those two kinds of links are exactly the same
+Yes.
