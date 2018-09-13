@@ -30,7 +30,7 @@ TBL's essay was written in 2007 and last edited in 2010, so I don't blame him fo
 
 <dl>
 	<dt><strong>Hey wait! Those links were just normal URLs!</strong></dt>
-	<dd>Yeah - browsers aren't set up to work with decentralized protocols yet, so for now we have to go through a gateway to see them. But hopefully browsers will start supporting them soon! The IPFS folks are tracking progress [here](https://github.com/ipfs/in-web-browsers), and a bunch of people are already using a whole browser called [Beaker](https://beakerbrowser.com/) that supports Dat.</dd>
+	<dd>Yeah - browsers aren't set up to work with decentralized protocols yet, so for now we have to go through a gateway to see them. But hopefully browsers will start supporting them soon! The IPFS folks are tracking progress <a href="https://github.com/ipfs/in-web-browsers">here</a>, and a bunch of people are already using a whole browser called <a href="https://beakerbrowser.com/">Beaker</a> that supports Dat.</dd>
 </dl>
 
 **Anyway**, the point is that content-addressable systems like IPFS and Dat finally close the loop in TBL's _Book 2: Abstracting Away Computers_: they address and resolve documents without depending on any particular server to find them.
@@ -40,6 +40,7 @@ TBL's essay was written in 2007 and last edited in 2010, so I don't blame him fo
 - [ ] Documents → Things
 
 ### Semantic addressing?
+
 Eventually, we may invent a way of addressing semantic content itself - eliminating the containing document in the way that IPFS eliminated the containing computer, and retrieving data by constructing granular descriptions that resemble database queries more than URIs <sup>[3](#3)</sup>. But until we have a real solution for TBL's _Book 3: Abstracting Away Files_ (and as a likely prerequisite), we can at least edge closer by using content-addressing our documents before falling down to fragments for semantic IDs.
 
 ```
