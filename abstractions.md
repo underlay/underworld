@@ -1,15 +1,15 @@
 # Abstractions
-> I'm all about 'em
+> I'm all for 'em
 
 Tim Berners-Lee wrote an essay I love about progress in communication technology. [He tells it best](https://www.w3.org/DesignIssues/Abstractions.html), but the narrative he sees is that networks build on each other in layers of increasing abstraction. 
 
 <dl>
-  <dt><strong>Connections → Computers</strong></dt>
-  <dd>At first, individual connections between computers were the primitives (you would route mail around manually like <code>timbl@mcvax!cernvax!cernvms</code>), then DNS and TCP/IP abstracted all computers away into a universally addressable "Internet Cloud" that let "programs to talk as though the computers were directly connected".</dd>
-  <dt><strong>Computers → Documents</strong></dt>
-  <dd>But it turns out that we mostly care about the files on the computers, not the computers themselves. HTTP and HTML set standards for publishing, retrieving, and rendering documents, all addressed by paths relative to a host computer. These documents, all linking to each other, created a new overlay network all of their own that we called the World Wide Web.</dd>
-  <dt><strong>Documents → Things</strong></dt>
-  <dd>But even the files on the computers are just vehicles for the _things in the files_. This is the basis for TBL's vision of the Semantic Web: the abstraction above documents, where objects and ideas themselves are the nodes. This was also the original motivation for URI fragments, so that we could index content within documents.</dd>
+	<dt><strong>Connections → Computers</strong></dt>
+	<dd>At first, individual connections between computers were the primitives (you would route mail around manually like <code>timbl@mcvax!cernvax!cernvms</code>), then DNS and TCP/IP abstracted all computers away into a universally addressable "Internet Cloud" that let "programs to talk as though the computers were directly connected".</dd>
+	<dt><strong>Computers → Documents</strong></dt>
+	<dd>But it turns out that we mostly care about the files on the computers, not the computers themselves. HTTP and HTML set standards for publishing, retrieving, and rendering documents, all addressed by paths relative to a host computer. These documents, all linking to each other, created a new overlay network all of their own that we called the World Wide Web.</dd>
+	<dt><strong>Documents → Things</strong></dt>
+	<dd>But even the files on the computers are just vehicles for the <em>things in the files</em>. This is the basis for TBL's vision of the Semantic Web: the abstraction above documents, where objects and ideas themselves are the nodes. This was also the original motivation for URI fragments, so that we could index content within documents.</dd>
 </dl>
 
 This story is elegant, but shows a few cracks under inspection. After the first layer of abstraction (DNS and TCP/IP), we've only _appended_ elements to addresses - a pathname to the origin to identify a document within a computer, and a fragment to the pathname to identify a thing within a document. But that isn't abstraction, because the previous layers are still visible (and necessary). It's just construction. This is fine, and abstraction isn't always appropriate, and it has certainly worked well for the web so far, but true abstraction would be to address documents directly, without reference to a parent computer.
