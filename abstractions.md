@@ -56,6 +56,6 @@ dweb:/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/Vincent_van_Gogh.
 
 <a name="1"><strong>1</strong></a>: At least not without cooperation from the original server by serving a redirect response or similar.
 <br>
-<a name="2"><strong>2</strong></a>: This is more true for IPFS than for Dat. Dat addresses are rooted in a public key, which isn't tied to a computer, but also doesn't quite get entirely out of the document's way (if two roots publish the same document, they'll get deduplicated when resolving them, but the URLs will still look different). It's one of many implications of IPFS being more of a filesystem and Dat being more of a 
+<a name="2"><strong>2</strong></a>: This is more true for IPFS than for Dat. Dat addresses are rooted in a public key, which isn't tied to a computer per se, but also doesn't quite get entirely out of the document's way (if two roots publish the same document, they'll get deduplicated when resolving them, but the URLs will still look different). 
 <br>
 <a name="3"><strong>3</strong></a>: Queries are a dangerous analogy to make because of their associated uncertainty: "we could never use queries to index data; what if they didn't return any results?" But it's no different than the uncertainty associated with URLs or IP addresses, and is in some ways _more certain_ in that the content served at a URL can change without warning over time, so you're never sure if you got the same thing as the person who sent you the link.
