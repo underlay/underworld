@@ -186,5 +186,27 @@ But now suppose you want to describe further properties of the `joel` node - not
 }
 ```
 
-### Wait, those two kinds of links are exactly the same
-Yes.
+---
+
+## Return to URIs
+> Thoughts as of Sept. 14
+
+The last scheme described ("inverting the index") will _not work_, for the simple reason that JSON-LD processors can (and will) rename blank node identifiers when processing, so there's no way to deliberately address a blank node with an `@id` in a way that will survive processing (in the previous example, the `"@id": "_:b0"` will  get renamed, and we'll never be able to tell which graph name in `Qm...` we were referring to).
+
+Furthermore, it seems a little pretentious to try to reinvent identifiers, and it'd feel much cleaner to have a single idiomatic URI scheme to use for ids.
+
+IPFS has struggled with URIs for a long, long time, and (as best I can tell) the current plan is the one described in [this gist](https://gist.github.com/lgierth/4b2969583b3c86081a907ef5bd682137): using URLs through a gate way (`https://ipfs.io/ipfs/Qm...`) for now, moving to `ipfs://Qm...` in the short term, supporting the `dweb:/ipfs/Qm...` URI scheme in the mid term, and resurrecting something like Plan 9's filesystem scheme in the long term (wow!).
+
+We don't want to stuff the Underlay full of `https://ipfs.io/ipfs/Qm...` URLs, and `ipfs://Qm...` features the incredible annoyance of being case-insensitive (so you wouldn't use `Qm...`, you'd have to use base32-encoded hashes, and although it's pretty neat that we can just switch base and have another 'identical' string, we don't want to do that). But the `dweb:/ipfs/Qm...` URI scheme looks promising! Maybe we can just use `dweb:/ipfs/Qm...#$id` for every `$id` - blank or otherwise - in documents that we want to address!
+
+I really like this idea but (once again) named graphs make this more complicated: you could have two identical `@id`s in one document that correspond to two different node objects if they're in separate named graphs. The problem is simple: fragment identifiers index into exactly one namespace within a document, but JSON-LD documents have two composed namespaces (node ids within named graphs).
+
+Fragment identifiers has a long history of getting abused to perverse purposes, so if we wanted to forcibly encode two ids with them like `dweb:/ipfs/Qm...#graph-id/node-id`, it wouldn't be the worst thing that's ever happened. But we'd rather stay within the rules, and I expect that this plan would make a lot of people angry. Plus we'd have to worry about picking a syntax (`"/"`?) and escaping the elements that conflict with it (`encodeURIComponent`?).
+
+---
+
+## And beyond
+
+I appreciate the long-term orientation of IPFS's path address plans. In the Underlay, I don't ever expect to transition away from URIs, but I do anticipate a migration away from file-based addressing. IPLD is already headed in this direction, but isn't fleshed-out enough for us to start thinking about it yet.
+
+I imagine that we'll be involved in making a "true" JSON-LD IPLD interface. There's sort of a heirarchy of composition in RDF triples -> node objects -> named graphs -> JSON-LD documents, and each one should probably have a CID.
