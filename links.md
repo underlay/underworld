@@ -201,7 +201,30 @@ We don't want to stuff the Underlay full of `https://ipfs.io/ipfs/Qm...` URLs, a
 
 I really like this idea but (once again) named graphs make this more complicated: you could have two identical `@id`s in one document that correspond to two different node objects if they're in separate named graphs. The problem is simple: fragment identifiers index into exactly one namespace within a document, but JSON-LD documents have two composed namespaces (node ids within named graphs).
 
-Fragment identifiers has a long history of getting abused to perverse purposes, so if we wanted to forcibly encode two ids with them like `dweb:/ipfs/Qm...#graph-id/node-id`, it wouldn't be the worst thing that's ever happened. But we'd rather stay within the rules, and I expect that this plan would make a lot of people angry. Plus we'd have to worry about picking a syntax (`"/"`?) and escaping the elements that conflict with it (`encodeURIComponent`?).
+Fragment identifiers has a long history of getting abused to perverse purposes, so if we wanted to forcibly encode two ids with them like `dweb:/ipfs/Qm...#graph-id/node-id`, it wouldn't be the worst thing that's ever happened. But we'd rather stay within the rules, and I expect that this plan would make a lot of people angry. Plus we'd have to worry about picking a syntax (`"/"`?) and escaping the elements that conflict with it (`encodeURIComponent`?). Fragments have the surprising and unique property within URIs of being able to contain _another URI_ without escapement; it'd be satisfying to exploit this.
+
+Furthermore, any solution has to handle empty graph names (the default graph) well, but disallow empty node ids.
+
+## Return to `@index` and then quickly returning back from that again
+
+A different path is to take the fragment to be _only_ the graph name, and to come up with another scheme to select the node id. How about `@index` again? This is very visually pleasing, and fits well with everyone's model: fragments identify a "section" of the document, and `@index` selects, well, the index within that section:
+
+```json
+{
+  "@id": "dweb:/ipfs/Qm...#_:graph-name",
+  "@index": "_:node-id-that-wont-get-renamed"
+}
+```
+
+But _this_ won't work becauses then any two ids referenced from the same named graph will get merged (and actually throw a colliding index error)!
+
+## Maybe IPLD has something to do with this after all
+
+```json
+{
+  "@id": "dweb:/ipfs/Qm.../_:graph-name/node-id"
+}
+```
 
 ---
 
