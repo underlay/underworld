@@ -189,7 +189,7 @@ But now suppose you want to describe further properties of the `joel` node - not
 ---
 
 ## Return to URIs
-> Thoughts as of Sept. 14
+> Thoughts from a never-ending SFO->BOS flight 2018-09-11
 
 The last scheme described ("inverting the index") will _not work_, for the simple reason that JSON-LD processors can (and will) rename blank node identifiers when processing, so there's no way to deliberately address a blank node with an `@id` in a way that will survive processing (in the previous example, the `"@id": "_:b0"` will  get renamed, and we'll never be able to tell which graph name in `Qm...` we were referring to).
 
