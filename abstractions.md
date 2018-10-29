@@ -12,11 +12,11 @@ Tim Berners-Lee wrote an essay I love about progress in communication technology
 	<dd>But even the files on the computers are just vehicles for the <em>things in the files</em>. This is the basis for TBL's vision of the Semantic Web: the abstraction above documents, where objects and ideas themselves are the nodes. This was also the original motivation for URI fragments, so that we could index content within documents.</dd>
 </dl>
 
-This story is elegant, but shows a few cracks under inspection. After the first layer of abstraction (DNS and TCP/IP), we've only _appended_ elements to addresses - a pathname to the origin to identify a document within a computer, and a fragment to the pathname to identify a thing within a document. But that isn't abstraction, because the previous layers are still visible (and necessary). It's just construction. This is fine, and abstraction isn't always appropriate, and it has certainly worked well for the web so far, but true abstraction would be to address documents directly, without reference to a parent computer.
+This story is elegant, but shows a few cracks under inspection. After the first layer of abstraction (DNS and TCP/IP), we've only _appended_ elements to addresses - a pathname to the origin to identify a document within a computer, and a fragment to the pathname to identify a thing within a document. But that isn't abstraction, because the previous layers are still visible (and necessary) - it's just construction. This is fine, as abstraction isn't always appropriate and has certainly worked well for the web so far. Nevertheless, true abstraction would be to address documents directly, without reference to a parent computer.
 
 ### Content addressing!
 
-This is what the distributed web enables: content-addressable files, in a context that is free from any particular computer. IPFS resolves files' hashes to their raw bytes, Dat resolves public keys to directory roots, and other projects will likely follow (and likely are following) similar schemes.
+This is what the distributed web enables: content-addressable files, in a context that is free from any particular computer. IPFS resolves files' hashes to their raw bytes, Dat resolves public keys to directory roots, and other projects will likely follow (and  are following) similar schemes.
 
 ```
 https://en.wikipedia.org/wiki/Vincent_van_Gogh
@@ -26,11 +26,14 @@ dweb:/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/Vincent_van_Gogh.
 
 There are definite tradeoffs. In some ways, traditional URLs are more fragile than content-addresses: a computer can survive a migration without losing its domain name (or even IP address), but a document can't move between host computers without breaking all its existing links <sup>[1](#1)</sup>. But in other ways, they are also more robust, since documents be can updated without losing their identity of being "the same document" <sup>[2](#2)</sup>.
 
-TBL's essay was written in 2007 and last edited in 2010, so I don't blame him for not predicting content-addressability or imagining that it would be practical. But it is! You can browse [Wikipedia](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/) or download [Project Gutenberg](https://www.reddit.com/r/IPFS_Hashes/comments/8716n2/project_gutenberg_hash_and_instructions/) or read the [Declaration of the Independence of Cyberspace](https://ipfs.io/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly) and it all kind of works.
+TBL's essay was written in 2007 and last edited in 2010, so I don't blame him for not predicting content-addressability or imagining that it would be practical. But it is! You can browse [Wikipedia](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/) 
+or download [Project Gutenberg](https://www.reddit.com/r/IPFS_Hashes/comments/8716n2/project_gutenberg_hash_and_instructions/) 
+or read the [Declaration of the Independence of Cyberspace](https://ipfs.io/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly) 
+and it all kind of works.
 
 <dl>
 	<dt><strong>Hey wait! Those links were just normal URLs!</strong></dt>
-	<dd>Yeah - browsers aren't set up to work with decentralized protocols yet, so for now we have to go through a gateway to see them. But hopefully browsers will start supporting them soon! The IPFS folks are tracking progress <a href="https://github.com/ipfs/in-web-browsers">here</a>, and a bunch of people are already using a whole browser called <a href="https://beakerbrowser.com/">Beaker</a> that supports Dat.</dd>
+	<dd>Yeah - browsers aren't set up to work with decentralized protocols yet, so for now we have to go through a gateway to see them. But hopefully browsers will start supporting them soon! The IPFS folks are tracking progress <a href="https://github.com/ipfs/in-web-browsers">here</a>, and a bunch of people are already using a browser called <a href="https://beakerbrowser.com/">Beaker</a> that supports Dat.</dd>
 </dl>
 
 **Anyway**, the point is that content-addressable systems like IPFS and Dat finally close the loop in TBL's _Book 2: Abstracting Away Computers_: they address and resolve documents without depending on any particular server to find them.
@@ -41,7 +44,7 @@ TBL's essay was written in 2007 and last edited in 2010, so I don't blame him fo
 
 ### Semantic addressing?
 
-Eventually, we may invent a way of addressing semantic content itself - eliminating the containing document in the way that IPFS eliminated the containing computer, and retrieving data by constructing granular descriptions that resemble database queries more than URIs <sup>[3](#3)</sup>. But until we have a real solution for TBL's _Book 3: Abstracting Away Files_ (and as a likely prerequisite), we can at least edge closer by using content-addressing our documents before falling down to fragments for semantic IDs.
+Eventually, we may invent a way of addressing semantic content itself - eliminating the containing document in the way that IPFS eliminated the containing computer, and retrieving data by constructing granular descriptions that resemble database queries more than URIs <sup>[3](#3)</sup>. But until we have a real solution for TBL's _Book 3: Abstracting Away Files_ (and as a likely prerequisite), we can at least edge closer by using content-addressing for our documents before falling down to fragments for semantic IDs.
 
 ```
 https://en.wikipedia.org/wiki/Vincent_van_Gogh#Artistic_breakthrough
