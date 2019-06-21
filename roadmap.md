@@ -8,7 +8,7 @@ The focus for June is building a **framework for simple Underlay deployments** t
 
 - [x]  Write Percolate middleware to match and handle specific ShEx shapes
 - [x]  Formalize and document ShEx *queries*
-- [ ]  Write [Percolate](https://github.com/underlay/percolate) middleware to match and handle arbitrary ShEx *queries*
+- [x]  Write [Percolate](https://github.com/underlay/percolate) middleware to match and handle arbitrary ShEx *queries*
 - [ ]  Write a configurable docker file that POSTs messages matching ShEx shapes to URLs
 - [ ]  Explore designing a Linked Data Platform Underlay node, document results
     - [https://www.w3.org/TR/ldp/](https://www.w3.org/TR/ldp/)
