@@ -13,6 +13,7 @@ The focus for June is building a **framework for simple Underlay deployments** t
 - [ ]  Explore designing a Linked Data Platform Underlay node, document results
     - [https://www.w3.org/TR/ldp/](https://www.w3.org/TR/ldp/)
     - [https://www.w3.org/TR/ldp-bp/](https://www.w3.org/TR/ldp-bp/)
+---
 - [x]  Refactor [styx](https://github.com/underlay/styx) to parse the new message format
 - [ ]  Research past *implementations* of Prolog and Datalog. Understand and document basic concepts and approaches.
 - [ ]  Prototype an in-memory RDF query processor that implements simple logical entailment of some of the properties from the [CWM built-in functions](https://www.w3.org/2000/10/swap/doc/CwmBuiltins)
