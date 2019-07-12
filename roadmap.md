@@ -24,9 +24,9 @@ The focus for June is building a **framework for simple Underlay deployments** t
 
 The focus for July is building tools for **visualizing and creating messages**. The deliverables are a stack of re-usable packages that make testing and working with messages easier.
 
-- [ ]  Refactor the [underlay/explore](https://github.com/underlay/explore) repo
+- [x]  Refactor the [underlay/explore](https://github.com/underlay/explore) repo
     - [ ]  **Survery past graph (especially RDF dataset) visualizations and browsers and document results**
-    - [ ]  Redesign the visualization of graphs within datasets
+    - [x]  Redesign the visualization of graphs within datasets
     - [ ]  Redesign the representation of dataset signatures
     - [ ]  Design & implement content-link navigation
 - [ ]  Polish and publish the [anagraph](https://github.com/underlay/anagraph) editor
