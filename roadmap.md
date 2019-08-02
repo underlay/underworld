@@ -15,7 +15,7 @@ The focus for June is building a **framework for simple Underlay deployments** t
     - [https://www.w3.org/TR/ldp-bp/](https://www.w3.org/TR/ldp-bp/)
 ---
 - [x]  Refactor [styx](https://github.com/underlay/styx) to parse the new message format
-- [ ]  Research past *implementations* of Prolog and Datalog. Understand and document basic concepts and approaches.
+- [x]  Research past *implementations* of Prolog and Datalog. Understand and document basic concepts and approaches.
 - [ ]  Prototype an in-memory RDF query processor that implements simple logical entailment of some of the properties from the [CWM built-in functions](https://www.w3.org/2000/10/swap/doc/CwmBuiltins)
     - [ ]  Easier: `lessThan`, `equalTo`, `memberCount`
     - [ ]  Harder: `quotient`, `sum`
@@ -29,9 +29,8 @@ The focus for July is building tools for **visualizing and creating messages**. 
     - [x]  Redesign the visualization of graphs within datasets
     - [ ]  Redesign the representation of dataset signatures
     - [ ]  Design & implement content-link navigation
-- [ ]  Polish and publish the [anagraph](https://github.com/underlay/anagraph) editor
-    - [ ]  Implement schema-driven read-only visualization blocks
-- [ ]  Explore common provenance patterns and publish a library of sample provenance graphs
+- [x]  Design and implement a query editor (with templates and examples)
+---
 - [ ]  Integrate simple logical entailment into the [styx](https://github.com/underlay/styx) query processor
 
 ## August
@@ -40,7 +39,9 @@ The focus for August is deploying a **reference implementation of a general-purp
 
 - [ ]  Deploy a KFG styx instance and Underlay node
 - [ ]  Find and ingest a large sample dataset
-- [ ]  Design and implement a query editor (with templates and examples)
+- [ ]  Explore common provenance patterns and publish a library of sample provenance graphs
+- [ ]  Polish and publish the [anagraph](https://github.com/underlay/anagraph) editor
+    - [ ]  Implement schema-driven read-only visualization blocks
 - [ ]  Implement a dashboard integrating [underlay/explore](https://github.com/underlay/explore), [anagraph](https://github.com/underlay/anagraph), and the query editor
 
 ## September
