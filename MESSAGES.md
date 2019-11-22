@@ -120,7 +120,7 @@ The signature is encoded as base64 text in an `xsd:string` RDF literal, and adde
 The blank signature node is also the subject of three additional triples added to the default graph:
 
 - `_:sig rdf:type sec:LinkedDataSignature2016`
-- `_:sig dcterms:created <created>`, where `<created>` is an `xsd:dateTime` marking when the signature was generated
+- `_:sig dcterms:created <created>`, where `<created>` is a literal with datatype `xsd:dateTime` marking when the signature was generated
 - `_:sig dcterms:creator <creator>`, where `<creator>` is a URI that can be dereferenced to retrieve the associated public key - For IPFS keys, use `dweb:/ipns/Qm...`, where `Qm...` is a base58 PeerId - Registries that control user's keys will have to implement their own standards around this
 
 Despite the awkwardness of splicing signatures into the default graph, parsing and validating them is deterministic so long as the signature node label is unique, and no other set of four triples in the default graph match the same pattern.
