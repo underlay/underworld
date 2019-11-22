@@ -50,7 +50,8 @@ The default graph of a message may also describe additional provenance of assert
 To get a dataset's canonical URI:
 
 - Canonicalize the dataset using the [URDNA2015](https://json-ld.github.io/normalization/spec/) normalization algorithm
-- Generate the base58btc CIDv1 of the canonicalized dataset as a raw IPLD block
+- Add the canonicalized dataset to IPFS with raw leaves
+- Transform the resulting CID into normal base32 CIDv1 format
 
 ```
 % cat data.jsonld
@@ -69,9 +70,9 @@ To get a dataset's canonical URI:
     }
   }
 }
-% cat data.jsonld | jsonld normalize | ipfs add -Q --raw-leaves
-zb2rhh7cNfeh64YM2CBcrt17H6fwku6DS6mpR9bZDUtPEZxzb
-% ipfs cat zb2rhh7cNfeh64YM2CBcrt17H6fwku6DS6mpR9bZDUtPEZxzb
+% cat data.jsonld | jsonld normalize | ipfs add -Q --raw-leaves | ipfs cid base32
+bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta
+% ipfs cat bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta
 _:c14n0 <http://schema.org/jobTitle> "Professor" _:c14n3 .
 _:c14n0 <http://schema.org/knows> _:c14n1 _:c14n3 .
 _:c14n0 <http://schema.org/name> "Jane Doe" _:c14n3 .
@@ -81,7 +82,7 @@ _:c14n2 <http://schema.org/name> "The Small Town Gazette" .
 _:c14n3 <http://www.w3.org/ns/prov#wasAttributedTo> _:c14n2 .
 ```
 
-The canonical URI for the dataset is `ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMeGsACquojrx`, and its single assertion has the canonical URI `ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMeGsACquojrx#_:c14n3`. More details and motivation for content-addressed URIs are described [here](https://kfg.mit.edu/pub/ic0grz58/).
+The canonical URI for the dataset is `ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta`, and its single assertion has the canonical URI `ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta#_:c14n3`. More details and motivation for content-addressed URIs are described [here](https://kfg.mit.edu/pub/ic0grz58/).
 
 If we wanted to refer to this assertion in a future message, we would use this URI as if it were a local blank graph name:
 
@@ -92,7 +93,7 @@ If we wanted to refer to this assertion in a future message, we would use this U
     "prov": "http://www.w3.org/ns/prov#"
   },
   "prov:wasRevisionOf": {
-    "@id": "ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMeGsACquojrx#_:c14n3"
+    "@id": "ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta#_:c14n3"
   },
   "@graph": {
     "name": "Jane Doe",
