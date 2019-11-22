@@ -137,7 +137,7 @@ The domain of `prov:wasAttributedTo` is `prov:Entity`, which means the object sh
 
 For example:
 
-```json
+```
 {
   "@context": { ... },
   "prov:wasAttributedTo": "The New York Times",
@@ -147,7 +147,7 @@ For example:
 
 is **invalid**, since "The New York Times" is an RDF literal string, which cannot be a PROV Entity. The correct way to express "simple string" provenance like this would be to simply sketch out whatever properties of the entity are known, however sparse:
 
-```json
+```
 {
   "@context": {
     "@vocab": "http://schema.org/",
@@ -164,7 +164,7 @@ is **invalid**, since "The New York Times" is an RDF literal string, which canno
 
 The following is **not** recommended:
 
-```json
+```
 {
   "@context": { ... },
   "prov:wasAttributedTo": { "@id": "https://nytimes.com" },
@@ -176,7 +176,7 @@ This is because there's little-to-no agreement on how or whether to use HTTP URL
 
 Instead, unless an explicit URI is publicly and visibly associated with an entity _with the express purpose of usage within RDF_, users should fall back to using blank nodes. No such explicit linked data URI is published by the New York Times, so a better provenance representation would be:
 
-```json
+```
 {
   "@context": {
     "@vocab": "http://schem.org/",
