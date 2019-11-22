@@ -1,5 +1,8 @@
-# blueprints
-Plans and proposals for underlay development; open problems and their solutions, and related designs.
+# Overview
 
-Discussions, plans, and events are on the [blueprints wiki](https://github.com/underlay/blueprints/wiki) here.  (first [workshop](https://github.com/underlay/blueprints/wiki/Workshops))
-Blueprints and specs are in pages here or in their own repositories.
+This reposity holds Underlay specs and resources that fit better on GitHub than PubPub.
+
+- [Message Spec](MESSAGES.md)
+- [Protocol Roadmap](ROADMAP.md)
+- [Overview Wiki](https://github.com/underlay/overview/wiki)
+  - [Workshop Notes](https://github.com/underlay/overview/wiki/Workshops)
