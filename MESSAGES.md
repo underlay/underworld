@@ -10,10 +10,11 @@ An _Underlay message_ is an RDF dataset containing a signature, provenance, and 
 A familiarity with [RDF](https://www.w3.org/TR/rdf11-primer/) and [JSON-LD](https://w3c.github.io/json-ld-syntax/) is assumed. Prefixes used here include:
 
 ```
-rdf:  http://www.w3.org/1999/02/22-rdf-syntax-ns#
-xsd:  http://www.w3.org/2001/XMLSchema#
-sec:  https://w3id.org/security#
-prov: http://www.w3.org/ns/prov#
+rdf:     http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xsd:     http://www.w3.org/2001/XMLSchema#
+sec:     https://w3id.org/security#
+prov:    http://www.w3.org/ns/prov#
+dcterms: http://purl.org/dc/terms/
 ```
 
 ## Assertions
@@ -54,19 +55,19 @@ To get a dataset's canonical URI:
 ```
 % cat data.jsonld
 {
-	"@context": {
-		"@vocab": "http://schema.org/",
-		"prov": "http://www.w3.org/ns/prov#",
-	},
-	"prov:wasAttributedTo": { "name": "The Small Town Gazette" },
-	"@graph": {
-		"name": "Jane Doe",
-		"jobTitle": "Professor",
-		"knows": {
-			"name": "John Doe",
-			"jobTitle": "Firefighter"
-		}
-	}
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+  },
+  "prov:wasAttributedTo": { "name": "The Small Town Gazette" },
+  "@graph": {
+    "name": "Jane Doe",
+    "jobTitle": "Professor",
+    "knows": {
+      "name": "John Doe",
+      "jobTitle": "Firefighter"
+    }
+  }
 }
 % cat data.jsonld | jsonld normalize | ipfs add -Q --raw-leaves
 zb2rhh7cNfeh64YM2CBcrt17H6fwku6DS6mpR9bZDUtPEZxzb
@@ -86,21 +87,21 @@ If we wanted to refer to this assertion in a future message, we would use this U
 
 ```json
 {
-	"@context": {
-		"@vocab": "http://schema.org/",
-		"prov": "http://www.w3.org/ns/prov#"
-	},
-	"prov:wasRevisionOf": {
-		"@id": "ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMeGsACquojrx#_:c14n3"
-	},
-	"@graph": {
-		"name": "Jane Doe",
-		"jobTitle": "Professor",
-		"knows": {
-			"name": "John Doe",
-			"jobTitle": "Lumberjack"
-		}
-	}
+  "@context": {
+    "@vocab": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "prov:wasRevisionOf": {
+    "@id": "ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMeGsACquojrx#_:c14n3"
+  },
+  "@graph": {
+    "name": "Jane Doe",
+    "jobTitle": "Professor",
+    "knows": {
+      "name": "John Doe",
+      "jobTitle": "Lumberjack"
+    }
+  }
 }
 ```
 
@@ -138,9 +139,9 @@ For example:
 
 ```json
 {
-	"@context": { ... },
-	"prov:wasAttributedTo": "The New York Times",
-	"@graph": { ... }
+  "@context": { ... },
+  "prov:wasAttributedTo": "The New York Times",
+  "@graph": { ... }
 }
 ```
 
@@ -148,14 +149,14 @@ is **invalid**, since "The New York Times" is an RDF literal string, which canno
 
 ```json
 {
-	"@context": {
-		"@vocab": "http://schema.org/",
-		...
-	},
-	"prov:wasAttributedTo": {
-		"name": "The New York Times"
-	},
-	"@graph": { ... }
+  "@context": {
+    "@vocab": "http://schema.org/",
+    ...
+  },
+  "prov:wasAttributedTo": {
+    "name": "The New York Times"
+  },
+  "@graph": { ... }
 }
 ```
 
@@ -165,9 +166,9 @@ The following is **not** recommended:
 
 ```json
 {
-	"@context": { ... },
-	"prov:wasAttributedTo": { "@id": "https://nytimes.com" },
-	"@graph": { ... }
+  "@context": { ... },
+  "prov:wasAttributedTo": { "@id": "https://nytimes.com" },
+  "@graph": { ... }
 }
 ```
 
@@ -177,13 +178,13 @@ Instead, unless an explicit URI is publicly and visibly associated with an entit
 
 ```json
 {
-	"@context": {
-		"@vocab": "http://schem.org/",
-		...
-	},
-	"prov:wasAttributedTo": {
-		"url": "https://nytimes.com"
-	},
-	"@graph": { ... }
+  "@context": {
+    "@vocab": "http://schem.org/",
+    ...
+  },
+    "prov:wasAttributedTo": {
+    "url": "https://nytimes.com"
+  },
+  "@graph": { ... }
 }
 ```
