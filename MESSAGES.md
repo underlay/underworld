@@ -133,7 +133,7 @@ The blank signature node is also the subject of three additional triples added t
 
 - `_:sig rdf:type sec:LinkedDataSignature2016`
 - `_:sig dcterms:created <created>`, where `<created>` is a literal with datatype `xsd:dateTime` marking when the signature was generated
-- `_:sig dcterms:creator <creator>`, where `<creator>` is a URI that can be dereferenced to retrieve the associated public key - For IPFS keys, use `dweb:/ipns/Qm...`, where `Qm...` is a base58 PeerId - Registries that control user's keys will have to implement their own standards around this
+- `_:sig dcterms:creator <creator>`, where `<creator>` is a URI that can be dereferenced to retrieve the associated public key - For IPFS keys, use `dweb:/ipns/Qm...`, where `Qm...` is a base58 PeerId.  Registries that control user's keys will have to implement their own standards around this
 
 Despite the awkwardness of splicing signatures into the default graph, parsing and validating them is deterministic so long as the signature node label is unique, and no other set of four triples in the default graph match the same pattern.
 
@@ -145,7 +145,7 @@ In general, tying user identity to individual keys is bad cryptographic practice
 
 It's important to use the PROV vocabulary consistently, since it will be used to reason across domains.
 
-The domain of `prov:wasAttributedTo` is `prov:Entity`, which means the object should usually be a blank node qualified with additional properties. Occasionally the object may be a content-addressed reference to a previous entity, and only on rarely should it be an external non-Underlay URI.
+The domain of `prov:wasAttributedTo` is `prov:Entity`, which means the object should usually be a blank node qualified with additional properties. Occasionally the object may be a content-addressed reference to a previous entity, and only rarely should it be an external non-Underlay URI.
 
 For example:
 
@@ -191,7 +191,7 @@ Instead, unless an explicit URI is publicly and visibly associated with an entit
 ```
 {
   "@context": {
-    "@vocab": "http://schem.org/",
+    "@vocab": "http://schema.org/",
     ...
   },
     "prov:wasAttributedTo": {
