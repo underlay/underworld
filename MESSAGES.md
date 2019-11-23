@@ -50,7 +50,7 @@ The default graph of a message may also describe additional provenance of assert
 To get a dataset's canonical URI:
 
 - Canonicalize the dataset using the [URDNA2015](https://json-ld.github.io/normalization/spec/) normalization algorithm
-- Add the canonicalized dataset to IPFS with raw leaves
+- Add the canonicalized dataset to IPFS, using hash `sha2-256` and format `dag-pb` with `raw` leaves
 - Transform the resulting CID into normal base32 CIDv1 format
 
 ```
@@ -82,7 +82,18 @@ _:c14n2 <http://schema.org/name> "The Small Town Gazette" .
 _:c14n3 <http://www.w3.org/ns/prov#wasAttributedTo> _:c14n2 .
 ```
 
-The canonical URI for the dataset is `ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta`, and its single assertion has the canonical URI `ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta#_:c14n3`. More details and motivation for content-addressed URIs are described [here](https://kfg.mit.edu/pub/ic0grz58/).
+The canonical URI for the dataset is
+```
+ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta
+```
+
+and its single assertion has the canonical URI
+
+```
+ul:/ipfs/bafkreie3su6ucgje52q5tc3jkqg6oxqsa2ti6xfgm32cfs2fhvhhsz2yta#_:c14n3
+```
+
+More details and motivation for content-addressed URIs are described [here](https://kfg.mit.edu/pub/ic0grz58/).
 
 If we wanted to refer to this assertion in a future message, we would use this URI as if it were a local blank graph name:
 
