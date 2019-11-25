@@ -85,7 +85,7 @@ The canonical URI for the dataset is `ul:zb2rhmHEgvSe6KUuZGnTzgdcswJ6YWnY1RDtJMe
 
 If we wanted to refer to this assertion in a future message, we would use this URI as if it were a local blank graph name:
 
-```json
+```
 {
   "@context": {
     "@vocab": "http://schema.org/",
