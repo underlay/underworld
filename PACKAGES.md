@@ -82,7 +82,7 @@ _Version_ and _representation_ are used interchangeably here - a "different vers
 
 ## Referent chasing
 
-It's important to be very clear on exactly what different URI formats refer to. Consider the following package (the specific fields of the package representation will be covered later):
+It's important to be very clear on exactly what different URI formats refer to. Consider the example package from the introduction:
 
 ```
 % cat package-a.jsonld | jsonld normalize | ipfs add --raw-leaves -Q | ipfs cid base32
@@ -102,7 +102,7 @@ _:c14n0 <http://www.w3.org/ns/prov#hadMember> <dweb:/ipfs/bafybeiatr6vzozvaxtp5f
 _:c14n0 <http://www.w3.org/ns/prov#hadMember> <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> .
 ```
 
-The file `package-a.jsonld` is a representation of an RDF dataset, and its content URI is:
+So the file `package-a.jsonld` is a representation of an RDF dataset, and its content URI is:
 
 ```
 ul:/ipfs/bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi
