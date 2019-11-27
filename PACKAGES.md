@@ -334,7 +334,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
       "@index": "resource"
     }
   },
-  "@type": "http://underlay.mit.edu/ns#",
+  "@type": "http://underlay.mit.edu/ns#Package",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "dcterms:hasFormat": {
@@ -374,7 +374,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
 % cat package-b.jsonld
 {
   "@context": "ipfs://bafybeihzdjhdglevaly4qsmqkhoe7urogpxzuw4ttzsfmbzcqd4exjwv4u",
-  "@type": "http://underlay.mit.edu/ns#",
+  "@type": "http://underlay.mit.edu/ns#Package",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "dcterms:hasFormat": {
