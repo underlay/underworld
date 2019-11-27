@@ -370,8 +370,9 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
 }
 ```
 
+... to give us a maximally concise package format:
+
 ```
-% cat package-b.jsonld
 {
   "@context": "ipfs://bafybeihzdjhdglevaly4qsmqkhoe7urogpxzuw4ttzsfmbzcqd4exjwv4u",
   "@type": "http://underlay.mit.edu/ns#Package",
