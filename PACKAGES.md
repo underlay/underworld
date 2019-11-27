@@ -54,7 +54,7 @@ Here's an example package:
 }
 ```
 
-Packages are designed to work with registry namespaces, so it's expected that every package will have a unique URI, managed by its parent registry, with a human-readable package name as the last path element of the URI, with no query or fragment components. In the JSON-LD examples here, the registry "root" URI path will always be given as the `@base` of the JSON-LD context, so that packages in the registry can be referenced simply as `"@id": "package-name"`.
+Packages are designed to work with registry namespaces, so it's expected that every package will have a unique URI, managed by its parent registry, with a human-readable package name as the last path element of the URI, with no query or fragment components. In the JSON-LD examples here, the registry "root" URI path will always be given as the [`@base`](https://w3c.github.io/json-ld-syntax/#base-iri) of the JSON-LD context, so that packages in the registry can be referenced simply as `"@id": "package-name"`.
 
 ## Resource URIs vs Content URIs
 
