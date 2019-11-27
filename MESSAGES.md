@@ -132,7 +132,7 @@ The signature is encoded as base64 text in an `xsd:string` RDF literal, and adde
 The blank signature node is also the subject of three additional triples added to the default graph:
 
 - `_:sig rdf:type sec:LinkedDataSignature2016`
-- `_:sig dcterms:created <created>`, where `<created>` is a literal with datatype [`xsd:dateTime`](https://www.w3.org/TR/xmlschema11-2/#dateTime) marking when the signature was generated
+- `_:sig dcterms:created <created>`, where `<created>` is a literal with datatype [`xsd:dateTime`](https://www.w3.org/TR/xmlschema11-2/#dateTime)
 - `_:sig dcterms:creator <creator>`, where `<creator>` is a URI that can be dereferenced to retrieve the associated public key 
   - For IPFS keys, use `dweb:/ipns/Qm...`, where `Qm...` is a [base58 PeerId](https://docs.ipfs.io/guides/concepts/ipns/).
   - Registries that control user's keys will have to implement their own standards around this.
