@@ -272,27 +272,6 @@ Qma25ZSNbp9AdjrPczjzKYm7zUAdcu9jQZJXbsPiifW79M 640422 8-cell-orig.gif
 QmXqw3JRLbyBubQfnYrQH5Vauc8XiVjDtMwyXMmPZpp5eK 375    jane-doe
 ```
 
-```
-% ipfs object stat bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki
-NumLinks:       2
-BlockSize:      114
-LinksSize:      112
-DataSize:       2
-CumulativeSize: 641116
-```
-
-This last `stat` value `CumulativeSize: 641116` must be given as an `xsd:integer` literal value as the `dcterms:extent` of the `dweb:/ipfs/...` file.
-
-```
-{
-  ...
-  "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
-    "dcterms:extent": 641116
-  }
-}
-```
-
 This directory structure imposes some mild constraints on which names are valid in resource URIs:
 
 - No message or file can be given the same name as a package included in the same directory. For example, even though `http://registry.example.com/package-a` and `http://registry.example.com/package-b/package-a` are different resource URIs, you can't name a something in package B "`http://registry.example.com/package-b/package-a`" if package B also includes a version of `http://registry.example.com/package-a`, since that would induce a name conflict in the directory tree (both would want the name `package-a`).
