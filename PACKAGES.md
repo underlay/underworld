@@ -129,7 +129,7 @@ Membership in a package `_:p` of a version `<content-URI>` of an abstract resour
 
 ```
 _:p <http://www.w3.org/ns/prov#hadMember> <content-URI> .
-<version> <http://www.w3.org/ns/ldp#membershipResource> <resource-URI> .
+<content-URI> <http://www.w3.org/ns/ldp#membershipResource> <resource-URI> .
 ```
 
 The second triple is required for included packages, but optional for messages and files, which may or may not have associated resource URIs.
