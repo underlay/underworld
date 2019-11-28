@@ -15,11 +15,11 @@ An _Underlay package_ is a collection of messages, files, and other packages.
 
 They're represented as blank nodes with an `rdf:type` of `http://underlay.mit.edu/ns#Package`, and `prov:hadMember` relations to their members. They're published as RDF Graphs (i.e. RDF Datasets without any named graphs).
 
-Packages are subclasses of PROV Collections and Linked Data Platform Direct Containers.
+Packages are subclasses of both [PROV Collections](https://www.w3.org/TR/prov-o/#Collection) and [Linked Data Platform Direct Containers](https://www.w3.org/TR/ldp/#dfn-linked-data-platform-direct-container).
 
 ```
-<http://underlay.mit.edu/ns#Package> rdfs:subClassOf <http://www.w3.org/ns/prov#Collection> .
-<http://underlay.mit.edu/ns#Package> rdfs:subClassOf <http://www.w3.org/ns/ldp#DirectContainer> .
+<http://underlay.mit.edu/ns#Package> rdfs:subClassOf prov:Collection .
+<http://underlay.mit.edu/ns#Package> rdfs:subClassOf ldp:DirectContainer .
 ```
 
 Here's an example package:
