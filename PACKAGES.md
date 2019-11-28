@@ -29,7 +29,6 @@ Here's an example package:
 {
   "@context": {
     "@base": "http://registry.example.com/",
-    "dcterms": "http://purl.org/dc/terms/",
     "prov": "http://www.w3.org/ns/prov#",
     "ldp": "http://www.w3.org/ns/ldp#",
     "ldp:membershipResource": { "@type": "@id" }
@@ -37,9 +36,8 @@ Here's an example package:
   "@type": "http://underlay.mit.edu/ns#Package",
   "ldp:membershipResource": "package-a",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
-  "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
-    "dcterms:extent": 641116
+  "prov:value": {
+    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
   },
   "prov:hadMember": [
     {
@@ -86,34 +84,33 @@ It's important to be very clear on exactly what different URI formats refer to. 
 
 ```
 % cat package-a.jsonld | jsonld normalize | ipfs add --raw-leaves -Q | ipfs cid base32
-bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi
+bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
 ```
 
 ```
-% ipfs cat bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi
+% ipfs cat bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
 <dweb:/ipfs/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/8-cell-orig.gif> .
-<dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki> <http://purl.org/dc/terms/extent> "641116"^^<http://www.w3.org/2001/XMLSchema#integer> .
 <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/jane-doe> .
-_:c14n0 <http://purl.org/dc/terms/hasFormat> <dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki> .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://underlay.mit.edu/ns#Package> .
 _:c14n0 <http://www.w3.org/ns/ldp#hasMemberRelation> <http://www.w3.org/ns/prov#hadMember> .
 _:c14n0 <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a> .
 _:c14n0 <http://www.w3.org/ns/prov#hadMember> <dweb:/ipfs/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4> .
 _:c14n0 <http://www.w3.org/ns/prov#hadMember> <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> .
+_:c14n0 <http://www.w3.org/ns/prov#value> <dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki> .
 ```
 
 So the file `package-a.jsonld` is a representation of an RDF dataset, and its content URI is:
 
 ```
-ul:/ipfs/bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi
+ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
 ```
 
-But what does this really refer to? _It only refers to the RDF Dataset - the container that has these nine RDF statements as members - and nothing more._ It does _not_ refer to the package described by those statements; it refers to the literal collection of statements themsevles!
+But what does this really refer to? _It only refers to the RDF Dataset - the container that has these eight RDF statements as members - and nothing more._ It does _not_ refer to the package described by those statements; it refers to the literal collection of statements themsevles!
 
 If we mean to refer to the package described in the dataset, we need to say so:
 
 ```
-ul:/ipfs/bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi#_:c14n0
+ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0
 ```
 
 _This_ is the content URI for this version of the package, and it's why packages representations need to use a blank node (and not the package resource URI) as the subject of all the package properties. Blank nodes, which are strictly scoped to their local dataset, serve as an externally content-addressable identity for specific versions of packages. The blank nodes are linked to their abstract resource URIs with a `ldp:membershipResource` predicate, but it's always the blank node that "defines" a package representation.
@@ -238,14 +235,14 @@ _:package <http://www.w3.org/ns/prov#hadMember> <dweb:/ipfs/bafybeiatr6vzozvaxtp
 
 Packages can include other packages. This might be called "importing" in other contexts, but here we deliberately use the same language we use for other resources. Including a package means the same thing as directly including all of that package's contents - it's just more concise to express and makes it easier to update things when they change. Formally, the previous sentence is equivalent to the statement "`prov:hadMember` is a transitive relation".
 
-Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi#_:c14n0`, we could include `package-a` in a version of another package `package-b`:
+Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0`, we could include `package-a` in a version of another package `package-b`:
 
 ```
 {
   ...
   "ldp:membershipResource": { "@id": "package-b" },
   "prov:hadMember": {
-    "@id": "ul:/ipfs/bafkreiapkxrm7dbcjxufe35gla6ntkyi6apck6eufcwlyr6eo3gm6mfkwi#_:c14n0",
+    "@id": "ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0",
     "ldp:membershipResource": { "@id": "package-a" }
   }
 }
@@ -255,7 +252,7 @@ Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreia
 
 IPFS can represent entire directory structures, which is very convenient for retrieving large trees of files.
 
-One of the required properties of a package is a `dcterms:hasFormat` predicate linking to a `dweb:/ipfs/` _directory_ that holds the package's dependency tree. The package itself corresponds to the root directory, and its members are files (messages and files) or subdirectories (packages) named with either their resource name, if it exists, or with their base32 CID.
+One of the required properties of a package is a [`prov:value`](https://www.w3.org/TR/prov-o/#value) predicate linking to a `dweb:/ipfs/` _directory_ that holds the package's dependency tree. The package itself corresponds to the root directory, and its members are files (messages and files) or subdirectories (packages) named with either their resource name, if it exists, or with their base32 CID.
 
 This means that instead requiring users to manually traverse the pacakge dependency tree and request each message and file individually, an entire package's state can be requested with a single root CID.
 
@@ -324,7 +321,6 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
     "@base": "http://registry.example.com/",
     "prov": "http://www.w3.org/ns/prov#",
     "ldp": "http://www.w3.org/ns/ldp#",
-    "dcterms": "http://purl.org/dc/terms/",
     "resource": {
       "@type": "@id",
       "@reverse": "ldp:membershipResource"
@@ -337,9 +333,8 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "@type": "http://underlay.mit.edu/ns#Package",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
-  "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
-    "dcterms:extent": 641116
+  "prov:value": {
+    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
@@ -351,13 +346,12 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
 ... which can be further compacted by caching the context on IPFS:
 
 ```
-% ipfs cat bafybeihzdjhdglevaly4qsmqkhoe7urogpxzuw4ttzsfmbzcqd4exjwv4u
+% ipfs cat bafkreihz5jqpso43dctxgun3oi2zbs4l26fko2a3tbd4acdr5kgvq2y2ky
 {
   "@context": {
     "@base": "http://registry.example.com/",
     "prov": "http://www.w3.org/ns/prov#",
     "ldp": "http://www.w3.org/ns/ldp#",
-    "dcterms": "http://purl.org/dc/terms/",
     "resource": {
       "@type": "@id",
       "@reverse": "ldp:membershipResource"
@@ -374,13 +368,12 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
 
 ```
 {
-  "@context": "ipfs://bafybeihzdjhdglevaly4qsmqkhoe7urogpxzuw4ttzsfmbzcqd4exjwv4u",
+  "@context": "ipfs://bafkreihz5jqpso43dctxgun3oi2zbs4l26fko2a3tbd4acdr5kgvq2y2ky",
   "@type": "http://underlay.mit.edu/ns#Package",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
-  "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
-    "dcterms:extent": 641116
+  "prov:value": {
+    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
