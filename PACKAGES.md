@@ -338,8 +338,8 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeidqolw7devivpan3wjm55kem5lyj6wahi6dkmtlpiqngt7qzq6tcm",
-    "dcterms:extent": 641040
+    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
+    "dcterms:extent": 641116
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
@@ -379,8 +379,8 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "dcterms:hasFormat": {
-    "@id": "dweb:/ipfs/bafybeidqolw7devivpan3wjm55kem5lyj6wahi6dkmtlpiqngt7qzq6tcm",
-    "dcterms:extent": 641040
+    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki",
+    "dcterms:extent": 641116
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
