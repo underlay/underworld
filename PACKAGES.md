@@ -37,7 +37,7 @@ Here's an example package:
   "ldp:membershipResource": "package-a",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
+    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
   },
   "prov:hadMember": [
     {
@@ -84,11 +84,11 @@ It's important to be very clear on exactly what different URI formats refer to. 
 
 ```
 % cat package-a.jsonld | jsonld normalize | ipfs add --raw-leaves -Q | ipfs cid base32
-bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
+bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
 ```
 
 ```
-% ipfs cat bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
+% ipfs cat bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
 <dweb:/ipfs/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/8-cell-orig.gif> .
 <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/jane-doe> .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://underlay.mit.edu/ns#Package> .
@@ -102,7 +102,7 @@ _:c14n0 <http://www.w3.org/ns/prov#value> <dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2
 So the file `package-a.jsonld` is a representation of an RDF dataset, and its content URI is:
 
 ```
-ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m
+ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
 ```
 
 But what does this really refer to? _It only refers to the RDF Dataset - the container that has these eight RDF statements as members - and nothing more._ It does _not_ refer to the package described by those statements; it refers to the literal collection of statements themsevles!
@@ -110,7 +110,7 @@ But what does this really refer to? _It only refers to the RDF Dataset - the con
 If we mean to refer to the package described in the dataset, we need to say so:
 
 ```
-ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0
+ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti#_:c14n0
 ```
 
 _This_ is the content URI for this version of the package, and it's why packages representations need to use a blank node (and not the package resource URI) as the subject of all the package properties. Blank nodes, which are strictly scoped to their local dataset, serve as an externally content-addressable identity for specific versions of packages. The blank nodes are linked to their abstract resource URIs with a `ldp:membershipResource` predicate, but it's always the blank node that "defines" a package representation.
@@ -235,14 +235,14 @@ _:package <http://www.w3.org/ns/prov#hadMember> <dweb:/ipfs/bafybeiatr6vzozvaxtp
 
 Packages can include other packages. This might be called "importing" in other contexts, but here we deliberately use the same language we use for other resources. Including a package means the same thing as directly including all of that package's contents - it's just more concise to express and makes it easier to update things when they change. Formally, the previous sentence is equivalent to the statement "`prov:hadMember` is a transitive relation".
 
-Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0`, we could include `package-a` in a version of another package `package-b`:
+Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti#_:c14n0`, we could include `package-a` in a version of another package `package-b`:
 
 ```
 {
   ...
   "ldp:membershipResource": { "@id": "package-b" },
   "prov:hadMember": {
-    "@id": "ul:/ipfs/bafkreicldy5vs7tmdvbwvebzdh5x4dvycz75enhfvntqv2krnvxqawjf5m#_:c14n0",
+    "@id": "ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti#_:c14n0",
     "ldp:membershipResource": { "@id": "package-a" }
   }
 }
@@ -263,13 +263,13 @@ Assembling package directories is straightforward. Continuing our example:
 % ipfs cat bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha > package-a/jane-doe
 % ipfs cat bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4 > package-a/8-cell-orig.gif
 % ipfs add package-a -r --raw-leaves -Q | ipfs cid base32
-bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki
+bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm
 ```
 
 ```
-% ipfs ls bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki
-Qma25ZSNbp9AdjrPczjzKYm7zUAdcu9jQZJXbsPiifW79M 640422 8-cell-orig.gif
-QmXqw3JRLbyBubQfnYrQH5Vauc8XiVjDtMwyXMmPZpp5eK 375    jane-doe
+% ipfs ls bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm
+QmPf1X2Yntp1DiGFPN8JX9WmPdQHsHHYGeU1GfuP2KNpxn              640422 8-cell-orig.gif
+bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse 375    jane-doe
 ```
 
 This directory structure imposes some mild constraints on which names are valid in resource URIs:
@@ -313,7 +313,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
+    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
@@ -352,7 +352,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki"
+    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
