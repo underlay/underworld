@@ -12,6 +12,7 @@ An _Underlay package_ is a collection of messages, files, and other packages.
 - [Directory representation](#directory-representation)
   - [Names and file extensions](#names-and-file-extensions)
   - [Example](#example)
+  - [Constraints](#constraints)
 - [Linked Data Platform Containers](#linked-data-platform-containers)
 - [JSON-LD Context Compaction](#json-ld-context-compaction)
 
