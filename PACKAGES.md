@@ -277,11 +277,11 @@ bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi 988 package-a.nt
 
 #### Messages
 
-A message `bar` in a package appears once as a file named `bar.nt`. If a message doesn't have a name (i.e. it doesn't have a resource URI), then its base32 CID is used instead, *still appended with the `.nt` file extension*. For example, if the message `http://example.com/package-a/jane-doe` didn't have a resource URI, it would appear as `package-a/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse.nt` instead of `package-a/jane-doe.nt`.
+A message `bar` in a package appears once as a file named `bar.nt`. If a message doesn't have a name (i.e. it doesn't have a resource URI), then its base32 CID is used instead, *still appended with the `.nt` file extension*. For example, if the message `http://registry.example.com/package-a/jane-doe` didn't have a resource URI, it would appear as `package-a/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse.nt` instead of `package-a/jane-doe.nt`.
 
 #### Files
 
-Files in a package's directory representation have filenames that are just their name (no file extension, unless the file extension is a part of their name), if they have a resource URI, or just their base32 CID (no file extension). For example, if the file `http://example.com/package-a/8-cell-orig.gif` didn't have a resource URI, it would appear as `package-a/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4` instead of `package-a/8-cell-orig.gif`.
+Files in a package's directory representation have filenames that are just their name (no file extension, unless the file extension is a part of their name), if they have a resource URI, or just their base32 CID (no file extension). For example, if the file `http://registry.example.com/package-a/8-cell-orig.gif` didn't have a resource URI, it would appear as `package-a/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4` instead of `package-a/8-cell-orig.gif`.
 
 ### Example
 
