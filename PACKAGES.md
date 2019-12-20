@@ -37,7 +37,7 @@ Here's an example package:
   "ldp:membershipResource": "package-a",
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
+    "@id": "dweb:/ipfs/bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde"
   },
   "prov:hadMember": [
     {
@@ -84,11 +84,11 @@ It's important to be very clear on exactly what different URI formats refer to. 
 
 ```
 % cat package-a.jsonld | jsonld normalize | ipfs add --raw-leaves -Q | ipfs cid base32
-bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
+bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi
 ```
 
 ```
-% ipfs cat bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
+% ipfs cat bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi
 <dweb:/ipfs/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/8-cell-orig.gif> .
 <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a/jane-doe> .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://underlay.mit.edu/ns#Package> .
@@ -96,13 +96,13 @@ _:c14n0 <http://www.w3.org/ns/ldp#hasMemberRelation> <http://www.w3.org/ns/prov#
 _:c14n0 <http://www.w3.org/ns/ldp#membershipResource> <http://registry.example.com/package-a> .
 _:c14n0 <http://www.w3.org/ns/prov#hadMember> <dweb:/ipfs/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4> .
 _:c14n0 <http://www.w3.org/ns/prov#hadMember> <ul:/ipfs/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse> .
-_:c14n0 <http://www.w3.org/ns/prov#value> <dweb:/ipfs/bafybeifjtibcxgoubc4my5bb2nlwwenufbsylalskj2dfl7hcw4vyd6dki> .
+_:c14n0 <http://www.w3.org/ns/prov#value> <dweb:/ipfs/bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde> .
 ```
 
 So the file `package-a.jsonld` is a representation of an RDF dataset, and its content URI is:
 
 ```
-ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti
+ul:/ipfs/bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi
 ```
 
 But what does this really refer to? _It only refers to the RDF Dataset - the container that has these eight RDF statements as members - and nothing more._ It does _not_ refer to the package described by those statements; it refers to the literal collection of statements themsevles!
@@ -110,7 +110,7 @@ But what does this really refer to? _It only refers to the RDF Dataset - the con
 If we mean to refer to the package described in the dataset, we need to say so:
 
 ```
-ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti#_:c14n0
+ul:/ipfs/bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi#_:c14n0
 ```
 
 _This_ is the content URI for this version of the package, and it's why packages representations need to use a blank node (and not the package resource URI) as the subject of all the package properties. Blank nodes, which are strictly scoped to their local dataset, serve as an externally content-addressable identity for specific versions of packages. The blank nodes are linked to their abstract resource URIs with a `ldp:membershipResource` predicate, but it's always the blank node that "defines" a package representation.
@@ -242,7 +242,7 @@ Given our example from before of `package-a` with content URI `ul:/ipfs/bafkreif
   ...
   "ldp:membershipResource": { "@id": "package-b" },
   "prov:hadMember": {
-    "@id": "ul:/ipfs/bafkreifw52aek3l2x44nhsutajpil3c6sc7gsig3bnbigskt6un3tw5pti#_:c14n0",
+    "@id": "ul:/ipfs/bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi#_:c14n0",
     "ldp:membershipResource": { "@id": "package-a" }
   }
 }
@@ -256,26 +256,70 @@ One of the required properties of a package is a [`prov:value`](https://www.w3.o
 
 This means that instead requiring users to manually traverse the pacakge dependency tree and request each message and file individually, an entire package's state can be requested with a single root CID.
 
+### Names and file extensions
+
+This `prov:value` is an opinionated, "direct" representation of a package, and as such it follows some opinionated conventions around naming.
+
+#### Packages
+
+A subpackage `foo` in a package appears twice in its directory representation:
+
+- a file named `foo.nt` that is the subpackage's canonicalized n-quads representation
+- a directory named `foo` that is the subpackage's directory representation
+
+For example, the directory representation of a package `package-b` that includes our example package `package-a` would contain:
+
+```
+% ipfs ls bafybeib2iuzyhfcyjgoyuoscjxqsfd5kst3hfyyeqhpzxdm622azyoglxe
+bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde -   package-a/
+bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi 988 package-a.nt
+```
+
+#### Messages
+
+A message `bar` in a package appears once as a file named `bar.nt`. If a message doesn't have a name (i.e. it doesn't have a resource URI), then its base32 CID is used instead, *still appended with the `.nt` file extension*. For example, if the message `http://example.com/package-a/jane-doe` didn't have a resource URI, it would appear as `package-a/bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse.nt` instead of `package-a/jane-doe.nt`.
+
+#### Files
+
+Files in a package's directory representation have filenames that are just their name (no file extension, unless the file extension is a part of their name), if they have a resource URI, or just their base32 CID (no file extension). For example, if the file `http://example.com/package-a/8-cell-orig.gif` didn't have a resource URI, it would appear as `package-a/bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4` instead of `package-a/8-cell-orig.gif`.
+
+### Example
+
 Assembling package directories is straightforward. Continuing our example:
 
 ```
 % mkdir package-a
-% ipfs cat bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha > package-a/jane-doe
+% ipfs cat bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha > package-a/jane-doe.nt
 % ipfs cat bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4 > package-a/8-cell-orig.gif
 % ipfs add package-a -r --raw-leaves -Q | ipfs cid base32
-bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm
+bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
 ```
 
 ```
-% ipfs ls bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm
+% ipfs ls bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
 QmPf1X2Yntp1DiGFPN8JX9WmPdQHsHHYGeU1GfuP2KNpxn              640422 8-cell-orig.gif
-bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse 375    jane-doe
+bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse 375    jane-doe.nt
 ```
+
+Incremental changes to an existing package directory are best done with the [`ipfs object patch`](https://docs.ipfs.io/reference/api/cli/#ipfs-object-patch) CLI command:
+
+```
+% mkdir package-b
+% ipfs add -r -Q package-b | ipfs cid base32
+bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354
+% ipfs object patch bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354 add-link package-a.nt bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi
+bafybeiek322btrjkwer7rc55sdes4f7obrbcs3w3ezo5fwhqghdm6krrr4
+% ipfs object patch bafybeiek322btrjkwer7rc55sdes4f7obrbcs3w3ezo5fwhqghdm6krrr4 add-link package-a bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
+bafybeib2iuzyhfcyjgoyuoscjxqsfd5kst3hfyyeqhpzxdm622azyoglxe
+```
+
+### Constraints
 
 This directory structure imposes some mild constraints on which names are valid in resource URIs:
 
 - No message or file can be given the same name as a package included in the same directory. For example, even though `http://registry.example.com/package-a` and `http://registry.example.com/package-b/package-a` are different resource URIs, you can't name a something in package B "`http://registry.example.com/package-b/package-a`" if package B also includes a version of `http://registry.example.com/package-a`, since that would induce a name conflict in the directory tree (both would want the name `package-a`).
-- No message or file can be given a name that is the CID of a different, unnamed message or file in the same package. Nobody should ever want to do this anyway.
+- Similarly, you can't name a file `bar.nt` if there's either a message named `bar` *or* a subpackage named `bar` in the same package, since that would also induce a name conflict in the directory tree (and you obviously can't name a file just `baz` if there's a message named `baz` since that would give them both the same resource URI, which is even worse).
+- No message or file can be given a name that is the CID of a different (named or unnamed) message or file in the same package. Nobody should ever want to do this anyway.
 
 This directory CID has two major uses. It could be literally retrieved as an actual directory, physically materialized on a user's filesystem, or it could be used as a [pinning](https://docs.ipfs.io/guides/concepts/pinning/) mechanism for IPFS, where the current version of a package is always pinned (and unpinned when a new version is found). This means that anything in the dependency tree would always be pinned, and outdated versions would be unpinned and freed for garbage collection.
 
@@ -313,7 +357,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
+    "@id": "dweb:/ipfs/bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
@@ -352,7 +396,7 @@ Applying the [reverse property](https://w3c.github.io/json-ld-syntax/#reverse-pr
   "ldp:hasMemberRelation":  { "@id": "prov:hadMember" },
   "ldp:membershipResource": { "@id": "package-a" },
   "prov:value": {
-    "@id": "dweb:/ipfs/bafybeie46zcpkcb6k5ywqbo5g2hynj2wdaqocdpddh3wtiltkarnkd74bm"
+    "@id": "dweb:/ipfs/bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde"
   },
   "prov:hadMember": {
     "package-a/jane-doe": "ul:/ipfs/bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha",
