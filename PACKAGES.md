@@ -13,6 +13,7 @@ An _Underlay package_ is a collection of messages, files, and other packages.
   - [Names and file extensions](#names-and-file-extensions)
   - [Example](#example)
   - [Constraints](#constraints)
+- [Naming guide](#naming-guide)
 - [Linked Data Platform Containers](#linked-data-platform-containers)
 - [JSON-LD Context Compaction](#json-ld-context-compaction)
 
@@ -325,6 +326,18 @@ This directory structure imposes some mild constraints on which names are valid 
 - No message or file can be given a name that is the CID of a different (named or unnamed) message or file in the same package. Nobody should ever want to do this anyway.
 
 This directory CID has two major uses. It could be literally retrieved as an actual directory, physically materialized on a user's filesystem, or it could be used as a [pinning](https://docs.ipfs.io/guides/concepts/pinning/) mechanism for IPFS, where the current version of a package is always pinned (and unpinned when a new version is found). This means that anything in the dependency tree would always be pinned, and outdated versions would be unpinned and freed for garbage collection.
+
+## Naming guide
+
+Packages always have associated resource URIs, but they're optional for messages and files. Messages and files that are included in packages without resource URIs are said to be included "directly", since a resource URI introduces a degree of indirection by allowing multiple versions of the resource to come and go under the same name.
+
+Generally, you should name files and messages with explicit resource URIs if you expect that they will be modified *and* you are using the package structure to distribute those edits.
+
+A good name for a file is often its regular filename - including a file extension, if available.
+
+A good name for a message is often an identifier for the primary subject of its assertions, primary source of its provenance, or other distinguishing partition unique within the package - typically without any file extension, since "messages" are an abstract resource that should not be considered tied to any specific serialization.
+
+Resource URIs are ideally stable identifiers, but it's not the end of the world if a name needs to change: the new package version will just not include the old resource URI, will include the new resource URI, and will include provenance describing the update.
 
 ## Linked Data Platform Containers
 
