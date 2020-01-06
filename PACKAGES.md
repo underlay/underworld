@@ -275,7 +275,7 @@ For example, the directory representation of a package `package-b` that includes
 
 ```
 % ipfs ls bafybeib2iuzyhfcyjgoyuoscjxqsfd5kst3hfyyeqhpzxdm622azyoglxe
-bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde -   package-a/
+bafybeid4662p5ecspsddi226miwagviecfhwwupl263hyzakdq4xyek2ga -   package-a/
 bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi 988 package-a.nt
 ```
 
@@ -293,15 +293,15 @@ Assembling package directories is straightforward. Continuing our example:
 
 ```
 % mkdir package-a
-% ipfs cat bafkreiel4jhpeqnu6g2cug6j67ho2xn5skyngidgutomsyj5bqjs4nn4ha > package-a/jane-doe.nt
+% ipfs cat bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse > package-a/jane-doe.nt
 % ipfs cat bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4 > package-a/8-cell-orig.gif
 % ipfs add package-a -r --raw-leaves -Q | ipfs cid base32
-bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
+bafybeid4662p5ecspsddi226miwagviecfhwwupl263hyzakdq4xyek2ga
 ```
 
 ```
-% ipfs ls bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
-QmPf1X2Yntp1DiGFPN8JX9WmPdQHsHHYGeU1GfuP2KNpxn              640422 8-cell-orig.gif
+% ipfs ls bafybeid4662p5ecspsddi226miwagviecfhwwupl263hyzakdq4xyek2ga
+bafybeiatr6vzozvaxtp5f32ghixj4bvauz6wgl4lbbh6np4yrrsvtep3y4 640422 8-cell-orig.gif
 bafkreib2xgk7gwailskap5ohnz4iua3pno2lm4wemop2bm7opgcun2dtse 375    jane-doe.nt
 ```
 
@@ -313,8 +313,18 @@ Incremental changes to an existing package directory are best done with the [`ip
 bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354
 % ipfs object patch bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354 add-link package-a.nt bafkreihqvh4pdolv5ihayngspc2zk6la46dzbqd4eiz5dcoysvnpfojboi
 bafybeiek322btrjkwer7rc55sdes4f7obrbcs3w3ezo5fwhqghdm6krrr4
-% ipfs object patch bafybeiek322btrjkwer7rc55sdes4f7obrbcs3w3ezo5fwhqghdm6krrr4 add-link package-a bafybeih4wdwetrvaz2ospgebag4rtndhhqebwgmos6hbwxdhfhtw3d2vde
-bafybeib2iuzyhfcyjgoyuoscjxqsfd5kst3hfyyeqhpzxdm622azyoglxe
+% ipfs object patch bafybeiek322btrjkwer7rc55sdes4f7obrbcs3w3ezo5fwhqghdm6krrr4 add-link package-a bafybeid4662p5ecspsddi226miwagviecfhwwupl263hyzakdq4xyek2ga
+bafybeieimsrctl5jccsrvoxhzuiprttfz4yzkqxwiqgahkktji6cfmpjn4
+```
+
+You can also reconstruct the directory tree with IPFS:
+
+```
+% ipfs get -o package-b bafybeieimsrctl5jccsrvoxhzuiprttfz4yzkqxwiqgahkktji6cfmpjn4
+% find package-b -type f | xargs ls -l 
+-rw-r--r--  1 joel  staff     988 Jan  6 13:38 package-b/package-a.nt
+-rw-r--r--  1 joel  staff  640422 Jan  6 13:38 package-b/package-a/8-cell-orig.gif
+-rw-r--r--  1 joel  staff     375 Jan  6 13:38 package-b/package-a/jane-doe.nt
 ```
 
 ### Constraints
