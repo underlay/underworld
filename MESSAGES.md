@@ -7,7 +7,8 @@ An _Underlay message_ is an RDF dataset containing a signature, provenance, and 
 - [Signatures](#signatures)
 - [Examples](#examples)
 
-A familiarity with [RDF](https://www.w3.org/TR/rdf11-primer/) and [JSON-LD](https://w3c.github.io/json-ld-syntax/) is assumed. Prefixes used here include:
+A familiarity with [RDF](https://www.w3.org/TR/rdf11-primer/) and [JSON-LD](https://w3c.github.io/json-ld-syntax/) is assumed.
+Prefixes used here include:
 
 ```
 rdf:     http://www.w3.org/1999/02/22-rdf-syntax-ns#
@@ -19,7 +20,7 @@ dcterms: http://purl.org/dc/terms/
 
 ## Assertions
 
-Assertions are named graphs, and they must have blank graph names. The assertion graphs are the "payload" of a message that carry the object-level data the author intends to publish. As a result, the data in the assertions of a message is often expected to validate some schema associated with the domain or application that it came from.
+Assertions are named graphs, and must have blank graph names. The assertion graphs are the "payload" of a message that carry the object-level data the author intends to publish.  As a result, data in the assertions of a message is often expected to validate a schema associated with the domain or application that it came from.
 
 Although named graphs appear to partition data between them, they're only used as a means of labelling subsets of data. Schema validation and other data operations are not done over individual named graphs, but over the union of all assertions (excluding the default graph of the dataset).
 
@@ -27,7 +28,7 @@ Although named graphs appear to partition data between them, they're only used a
 
 A single message should carry a _coherent unit of data_, such as a row in a database or a snapshot of state. Not all domains have clear divisions; applications are encouraged to use messages in whatever way feels most appropriate.
 
-_Assertions label components of data according to their provenance._ They group the parts of the data that came from the same source, are attributed to the same entity, etc. In general, schemas and provenance do not always align, and so named graphs are used as an extra degree of freedom to capture the difference.
+_Assertions label components of data according to their provenance._ They group the parts of the data that came from the same source, are attributed to the same entity, etc. In general, schemas and provenance do not always align, so named graphs are used as an extra degree of freedom to capture the difference.
 
 ## Provenance
 
@@ -35,11 +36,11 @@ _Assertions label components of data according to their provenance._ They group 
 
 The default graph of messages describes the provenance of the assertions using the [PROV-O Ontology](https://www.w3.org/TR/prov-o/), using each named graph's blank graph label to refer to each assertion. This promotes an interpretation of RDF dataset semantics where the graph name denotes the named graph, as described [here](https://www.w3.org/TR/rdf11-datasets/#the-graph-name-denotes-the-named-graph-or-the-graph) and as popularized by JSON-LD's representation of named graphs.
 
-Every assertion must be the subject of at least one triple in the default graph whose predicate is one of `prov:wasDerivedFrom`, `prov:wasAttributedTo`, or `prov:wasGeneratedBy` (or a well-known subclass). Note that the range of these predicates are PROV Entities, so the objects of these "provenance entry point" triples cannot be RDF literals.
+Every assertion must be the subject of at least one triple in the default graph, whose predicate is one of `prov:wasDerivedFrom`, `prov:wasAttributedTo`, or `prov:wasGeneratedBy` (or a well-known subclass). Note that the range of these predicates are PROV Entities, so the objects of these "provenance entry point" triples cannot be RDF literals.
 
 There is no upper limit to the contents of the default graph - it may describe the PROV Entities associated with an assertion using other ontologies as well - as long as it is in the service of describing the assertions, and not carrying asserted data itself.
 
-Messages split data into assertions by their known provenance. An assertion should be a chunk of data whose provenance is described atomically, even if it means splitting up parts of a data structure between named graphs (querying, validation in ShEx, and other operations are all done over a merged graph). Depending on the granularity of the known provenance, there might be only one assertion, or there may be a separate assertion for each asserted triple.
+Messages split data into assertions by their known provenance. An assertion should be a chunk of data whose provenance is described atomically, even if it means splitting up parts of a data structure between named graphs. Querying, validation in ShEx, and other operations are all done over a merged graph. Depending on the granularity of the known provenance, there may be only one assertion, or there may be a separate assertion for each asserted triple.
 
 Most messages have just one assertion.
 
@@ -52,6 +53,8 @@ To get a dataset's canonical URI:
 - Canonicalize the dataset using the [URDNA2015](https://json-ld.github.io/normalization/spec/) normalization algorithm
 - Add the canonicalized dataset to IPFS, using hash `sha2-256` and format `dag-pb` with `raw` leaves
 - Transform the resulting CID into normal base32 CIDv1 format
+
+Consider the following dataset:
 
 ```
 % cat data.jsonld
@@ -123,7 +126,7 @@ This forms the basic mechanism for retraction and revision.
 
 The signature is the last part of a message to be assembled, and should be the first part of a message to be parsed.
 
-Messages use the [`LinkedDataSignature2016`](https://web-payments.org/vocabs/security#LinkedDataSignature2015) signature for signing RDF datasets, which represents signatures as part of the dataset itself - that is, the signature is represented directly as RDF in the default graph, and only signs the "rest" of the dataset.
+Messages use the [`LinkedDataSignature2016`](https://web-payments.org/vocabs/security#LinkedDataSignature2015) signature for signing RDF datasets, which represents signatures as part of the dataset itself.  That is, the signature is represented directly as RDF in the default graph, and only signs the "rest" of the dataset.
 
 To sign a message, the unsigned dataset is first canonicalized using the [URDNA2015](https://json-ld.github.io/normalization/spec/) algorithm. Then the canonicalized string is signed with the [rsa-sha256 algorithm](http://www.w3.org/2000/09/xmldsig#rsa-sha256), using the key associated with a user's IPFS node, or a user's account with a registry, or similar.
 
@@ -141,7 +144,7 @@ Despite the awkwardness of splicing signatures into the default graph, parsing a
 
 ### Identities vs keys
 
-In general, tying user identity to individual keys is bad cryptographic practice. There is a new [Linked Data Signatures](https://w3c-dvcg.github.io/ld-signatures) spec under active development by the W3C Digital Verification Community Group that approaches signing with this in mind, with the goal of supporting "N entities with M keys" per user. `LinkedDataSignature2016` is a much simpler scheme that is adopted here for temporary use while these specs and tools stabilize.
+In general, tying user identity to individual keys is bad cryptographic practice. There is an [Linked Data Signatures](https://w3c-dvcg.github.io/ld-signatures) spec under active development by the W3C Digital Verification Community Group, which approaches signing with this in mind, with the goal of supporting "N entities with M keys" per user. `LinkedDataSignature2016` is a much simpler scheme that is adopted here for temporary use while these specs and tools stabilize.
 
 ## Examples
 
@@ -186,7 +189,7 @@ The following is **not** recommended:
 }
 ```
 
-This is because there's little-to-no agreement on how or whether to use HTTP URLs as RDF URIs, and it often leads to more harm than good. Do they refer to the webpage? The website as a whole? The entity behind the website? `http` or `https`? Trailing slash?? Fragments??? _The RDF data model successfully describes the world to an extent proportional to the consensus achieved by its users on the referents of its identifiers_, and carelessly guessing at URIs for entities dilutes the effective utility of everyone's data.
+This is because there is little-to-no agreement on how or whether to use HTTP URLs as RDF URIs, and it often leads to more harm than good. Do they refer to the webpage? The website as a whole? The entity behind the website? `http` or `https`? Trailing slash?? Fragments?? _The RDF data model successfully describes the world to an extent proportional to the consensus achieved by its users on the referents of its identifiers_, and carelessly guessing at URIs for entities dilutes the effective utility of everyone's data.
 
 Instead, unless an explicit URI is publicly and visibly associated with an entity _with the express purpose of usage within RDF_, users should fall back to using blank nodes. No such explicit linked data URI is published by the New York Times, so a better provenance representation would be:
 
