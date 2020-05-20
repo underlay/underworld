@@ -1,0 +1,52 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX u: <http://underlay.org/ns#>
+
+start = {
+  a [ u:Package ] ;
+  dcterms:isVersionOf iri ;
+
+  u:schema iri /^dweb:\/ipfs\/[a-z2-7]{59}$/ {
+    dcterms:format [ "text/shex" ] ;
+    dcterms:isVersionOf iri ? ;
+  } ? ;
+
+  u:shapeMap bnode {
+    u:class iri ;
+    u:shape iri ;
+  } * ;
+
+  dcterms:created xsd:dateTime ;
+  dcterms:modified xsd:dateTime ;
+
+  dcterms:title xsd:string ;
+  dcterms:description xsd:string ? ;
+  dcterms:subject xsd:string * ;
+
+  u:parent iri /^ul:[a-z2-7]{59}#c14n[0-9]+$/ ? ;
+  u:content iri /^dweb:\/ipfs\/[a-z2-7]{59}$/ {
+    dcterms:extent xsd:integer ;
+  } ;
+
+  u:contains iri /^ul:[a-z2-7]{59}#c14n[0-9]+$/ {
+    a [ u:Package ] ;
+    dcterms:isVersionOf iri ;
+    dcterms:title xsd:string ;
+  } OR iri /^ul:[a-z2-7]{59}$/ {
+    a [ u:Assertion ] ;
+    dcterms:created xsd:dateTime ;
+    dcterms:modified xsd:dateTime ? ;
+    dcterms:isVersionOf iri ? ;
+    dcterms:title xsd:string ? ;
+  } OR iri /^dweb:\/ipfs\/[a-z2-7]{59}$/ {
+    a [ u:File ] ;
+    dcterms:format xsd:string ;
+    dcterms:extent xsd:integer ;
+    dcterms:created xsd:dateTime ;
+    dcterms:modified xsd:dateTime ? ;
+    dcterms:isVersionOf iri ? ;
+    dcterms:title xsd:string ? ;
+  } * ;
+}
