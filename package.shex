@@ -4,8 +4,12 @@ PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX u: <http://underlay.org/ns#>
 
-start = {
+start = bnode {
   a [ u:Package ] ;
+
+  ldp:hasMemberRelation [ prov:hadMember ] ;
+  ldp:membershipResource bnode ;
+
   dcterms:isVersionOf iri ;
 
   u:schema iri /^dweb:\/ipfs\/[a-z2-7]{59}$/ {
