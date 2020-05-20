@@ -1,0 +1,114 @@
+{
+	"@context": {
+		"u": "http://underlay.org/ns#",
+		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+		"ldp": "http://www.w3.org/ns/ldp#",
+		"prov": "http://www.w3.org/ns/prov#",
+		"rdfs:subClassOf": {
+			"@type": "@id"
+		},
+		"rdfs:subPropertyOf": {
+			"@type": "@id"
+		},
+		"rdfs:domain": {
+			"@type": "@id"
+		},
+		"rdfs:range": {
+			"@type": "@id"
+		}
+	},
+	"@graph": [
+		{
+			"@id": "u:Resource",
+			"@type": "rdfs:Class",
+			"rdfs:label": "Resource",
+			"rdfs:subClassOf": [
+				"rdfs:Resource"
+			]
+		},
+		{
+			"@id": "u:Package",
+			"@type": "rdfs:Class",
+			"rdfs:label": "Package",
+			"rdfs:subClassOf": [
+				"u:Resource",
+				"prov:Collection",
+				"ldp:DirectContainer"
+			]
+		},
+		{
+			"@id": "u:Assertion",
+			"@type": "rdfs:Class",
+			"rdfs:label": "Assertion",
+			"rdfs:subClassOf": [
+				"u:Resource",
+				"prov:Entity",
+				"ldp:RDFSource"
+			]
+		},
+		{
+			"@id": "u:File",
+			"@type": "rdfs:Class",
+			"rdfs:label": "File",
+			"rdfs:subClassOf": [
+				"u:Resource",
+				"prov:Entity",
+				"ldp:NonRDFSource"
+			]
+		},
+		{
+			"@id": "u:Schema",
+			"@type": "rdfs:Class",
+			"rdfs:label": "Schema"
+		},
+		{
+			"@id": "u:ShapeMap",
+			"@type": "rdfs:Class",
+			"rdfs:label": "ShapeMap"
+		},
+		{
+			"@id": "u:schema",
+			"@type": "rdfs:Property",
+			"rdfs:label": "schema",
+			"rdfs:domain": "u:Package",
+			"rdfs:range": "u:Schema"
+		},
+		{
+			"@id": "u:shapeMap",
+			"@type": "rdfs:Property",
+			"rdfs:label": "shapeMap",
+			"rdfs:domain": "u:Package",
+			"rdfs:range": "u:ShapeMap"
+		},
+		{
+			"@id": "u:parent",
+			"@type": "rdfs:Property",
+			"rdfs:label": "schema",
+			"rdfs:subPropertyOf": [
+				"prov:wasRevisionOf"
+			],
+			"rdfs:domain": "u:Package",
+			"rdfs:range": "u:Package"
+		},
+		{
+			"@id": "u:content",
+			"@type": "rdfs:Property",
+			"rdfs:label": "content",
+			"rdfs:subPropertyOf": [
+				"prov:value"
+			],
+			"rdfs:domain": "u:Package",
+			"rdfs:range": "rdfs:Resource"
+		},
+		{
+			"@id": "u:contains",
+			"@type": "rdfs:Property",
+			"rdfs:label": "u:contains",
+			"rdfs:subPropertyOf": [
+				"prov:hadMember"
+			],
+			"rdfs:domain": "u:Package",
+			"rdfs:range": "u:Resource"
+		}
+	]
+}
