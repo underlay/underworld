@@ -8,4 +8,4 @@ This reposity holds historical Underlay docs and specs that fit better on GitHub
 - [Protocol Roadmap](ROADMAP.md)
 
 ### Notes
-- [wiki](https://github.com/underlay/overview/wiki) + [workshop](https://github.com/underlay/overview/wiki/Workshops) 
+- [wiki](https://github.com/underlay/underworld/wiki) + [workshop](https://github.com/underlay/underworld/wiki/Workshops) 
