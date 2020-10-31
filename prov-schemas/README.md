@@ -10,7 +10,7 @@ This scenario is a collection template where each named graph represents a singl
 
 ### collection `same_recipe/`
 
-This scenario is for named graphs consisting of multiple versions of the same recipe, for example, 3 different versions of Okonomiyaki. In this instance, the meta-schema describes *how* each of these graphs was generated, while the source and authorship information is stored in the data-schema.
+This scenario is for named graphs consisting of multiple versions of the same recipe (a recipe with the same name, by different authors, rather than three revisions of a recipe by one author): here, 3 different versions of _Okonomiyaki_. In this instance, the meta-schema describes *how* each of these graphs was generated, while the source and authorship information is stored in the data-schema.
 
 ### merging collections
 
