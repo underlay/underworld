@@ -1,4 +1,4 @@
-namespace = "https://schema.org/"
+namespace = "https://example.com/"
 
 [shapes.Recipe]
 name = "string"

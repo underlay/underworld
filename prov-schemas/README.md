@@ -1,4 +1,4 @@
-## provenance schema examples
+### provenance schema examples
 
 Example schemas are organised into 'collection templates', here in labelled folders. These examples explore 2 possible collection templates for a recipe-scraping scenario.
 

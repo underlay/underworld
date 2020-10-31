@@ -1,7 +1,6 @@
+namespace = "https://example.com/"
+
 [classes.Graph]
-[classes.Graph.name]
-kind="literal"
-label="name"
 [classes.Graph.wasDerivedFrom]
 kind = "reference"
 label = "Webpage"

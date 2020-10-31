@@ -1,3 +1,5 @@
+namespace = "https://example.com/"
+
 [classes.Graph]
 [classes.Graph.name]
 kind="literal"
