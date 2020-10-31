@@ -1,19 +1,18 @@
-# Provenance Schema Examples
+## provenance schema examples
 
-Example schemas in 'collection templates'. These examples explore 2 possible collection templates for a recipe-scraping scenario.
+Example schemas are organised into 'collection templates', here in labelled folders. These examples explore 2 possible collection templates for a recipe-scraping scenario.
 
-In both templates, each collection is composed of a set of named graphs, which form the basis for assertions. The data-schema `data.toml` describes the how the contents of each graph is structured; the meta-schema `meta.toml` describes the structure of the provenance metadata associated with each graph.
+Each collection is composed of a set of named graphs, which form the basis for assertions. The data-schema `data.toml` describes the how the contents of each graph is structured; the meta-schema `meta.toml` describes the structure of the provenance metadata associated with each graph.
 
-## `individual_recipes/`
-Folder 
+### collection `individual_recipes/`
 
 This scenario is a collection template where each named graph represents a single recipe. In this instance, the meta-schema captures information about the author and source of the recipe, while the data-schema captures details such as name and ingredients.
 
-## `same_recipe/`
+### collection `same_recipe/`
 
 This scenario is for named graphs consisting of multiple versions of the same recipe, for example, 3 different versions of Okonomiyaki. In this instance, the meta-schema describes *how* each of these graphs was generated, while the source and authorship information is stored in the data-schema.
 
-## merging collections
+### merging collections
 
 *correct this bit if you disagree*
 
