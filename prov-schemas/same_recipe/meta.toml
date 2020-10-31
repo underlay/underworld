@@ -1,0 +1,14 @@
+[classes.Graph]
+[classes.Graph.name]
+kind="literal"
+label="name"
+[classes.Graph.wasGeneratedBy]
+kind = "reference"
+label = "Scraper"
+
+[classes.Scraper]
+url = "string"
+[classes.Scraper.author]
+kind = "literal"
+datatype = "string"
+cardinality = "optional"

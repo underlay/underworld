@@ -1,0 +1,14 @@
+[classes.Graph]
+[classes.Graph.name]
+kind="literal"
+label="name"
+[classes.Graph.wasDerivedFrom]
+kind = "reference"
+label = "Webpage"
+
+[classes.Webpage]
+url = "string"
+[classes.Webpage.author]
+kind = "literal"
+datatype = "string"
+cardinality = "optional"

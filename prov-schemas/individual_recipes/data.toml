@@ -1,0 +1,17 @@
+namespace = "https://schema.org/"
+
+[shapes.Recipe]
+name = "string"
+[shapes.Recipe.ingredient]
+kind = "reference"
+label = "Ingredient"
+cardinality = "any"
+
+[shapes.Ingredient]
+name = "string"
+[shapes.Ingredient.id]
+kind = "uri"
+[shapes.Ingredient.description]
+kind = "literal"
+datatype = "string"
+cardinality = "optional"
