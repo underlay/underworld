@@ -6,8 +6,11 @@ kind = "reference"
 label = "Webpage"
 
 [classes.Webpage]
-url = "string"
+[classes.Webpage.url]
+kind = "literal"
+datatype = "string"
+cardinality = "required"
 [classes.Webpage.author]
 kind = "literal"
 datatype = "string"
-cardinality = "optional"
+cardinality = "any"

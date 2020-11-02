@@ -1,7 +1,10 @@
 namespace = "https://example.com/"
 
 [shapes.Recipe]
-name = "string"
+[shapes.Recipe.name]
+kind = "literal"
+datatype = "string"
+cardinality = "required"
 [shapes.Recipe.ingredient]
 kind = "reference"
 label = "Ingredient"

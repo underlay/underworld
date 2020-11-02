@@ -3,10 +3,12 @@ namespace = "https://example.com/"
 [classes.Graph]
 [classes.Graph.name]
 kind="literal"
-label="name"
+datatype = "string"
+cardinality = "optional"
 [classes.Graph.wasGeneratedBy]
 kind = "reference"
 label = "Scraper"
+cardinality = "optional"
 
 [classes.Scraper]
 url = "string"

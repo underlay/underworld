@@ -1,9 +1,14 @@
 namespace = "https://example.com/"
 
 [shapes.Recipe]
+[shapes.Recipe.name]
 name = "string"
+[shapes.Recipe.author]
 author = "string"
-source = "string"
+[shapes.Recipe.source]
+kind = "reference"
+label = "Webpage"
+cardinality = "required"
 [shapes.Recipe.ingredient]
 kind = "reference"
 label = "Ingredient"
@@ -17,3 +22,13 @@ kind = "uri"
 kind = "literal"
 datatype = "string"
 cardinality = "optional"
+
+[classes.Webpage]
+[classes.Webpage.url]
+kind = "literal"
+datatype = "string"
+cardinality = "required"
+[classes.Webpage.author]
+kind = "literal"
+datatype = "string"
+cardinality = "any"
