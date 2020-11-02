@@ -1,6 +1,6 @@
 ## provenance schema examples
 
-Example schemas are organised into 'collection templates', here in labelled folders. These examples explore 2 possible collection templates for a recipe-scraping scenario.
+Example schemas are organised into 'collection templates', here in labelled folders. These examples explore 2 possible collection templates for a recipe-scraping scenario. For notes on best practices for schema-modelling, see [Modelling Best Practices](https://discourse.knowledgefutures.org/t/schema-construction/297) on Discourse.
 
 Each collection is composed of a set of named graphs, which form the basis for assertions. The data-schema `data.toml` describes the how the contents of each graph is structured; the meta-schema `meta.toml` describes the structure of the provenance metadata associated with each graph.
 
