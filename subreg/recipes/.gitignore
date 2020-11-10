@@ -1,0 +1,5 @@
+*.json
+.DS_Store
+*.sqlite
+__pycache__
+/nyt_recipes

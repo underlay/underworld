@@ -1,0 +1,30 @@
+namespace = "https://schema.org/"
+
+[shapes.Recipe]
+name = "string"
+wasDerivedFromURL = "string"
+[shapes.Recipe.hasAuthor]
+kind = "reference"
+label = "Author"
+cardinality = "optional"
+[shapes.Recipe.hasSource]
+kind = "reference"
+label = "Source"
+cardinality = "optional"
+[shapes.Recipe.hasIngredient]
+kind = "reference"
+label = "Ingredient"
+cardinality = "any"
+
+[shapes.Ingredient]
+name = "string"
+containsMeat = "boolean"
+
+[shapes.Webpage]
+url = "string"
+
+[shapes.Author]
+name = "string"
+
+[shapes.Cuisine]
+name = "string"

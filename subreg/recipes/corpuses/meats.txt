@@ -1,0 +1,14 @@
+beef
+pork
+chicken
+fish
+bacon
+ham
+goat
+mutton
+shank
+oxtail
+shoulder
+sausage
+salami
+kielbasa
