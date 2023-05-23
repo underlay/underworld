@@ -1,5 +1,5 @@
 recipe_scrapers==10.0.2
-requests==2.24.0
+requests==2.31.0
 toml==0.10.1
 pyquery==1.4.1
 beautifulsoup4==4.9.3
